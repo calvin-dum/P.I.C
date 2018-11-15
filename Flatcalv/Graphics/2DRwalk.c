@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
      /* Mettre a jour l'affichage */
     SDL_RenderPresent(rendeur1);
 
-     /* Enregistrer l'image dans un fichier */
+    /* /* Enregistrer l'image dans un fichier
     numero_d_image++;
     if (numero_d_image < 10000)
       {
@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
         fputs(SDL_GetError(), stderr);
       SDL_FreeSurface(s);
       }
-
+*/
     if (SDL_PollEvent(&evenement))
       switch (evenement.type)
         {
