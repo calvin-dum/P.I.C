@@ -79,11 +79,13 @@ int main(int argc, char* argv[])
   SDL_RenderClear(rendeur1);
 #endif
 
-  float x_antigene_1= 0.6, y_antigene_1= 0.7;
+  float x_antigene_1= 0.5, y_antigene_1= 0.5;
 
   int numero_d_image= 0;
     /* Afficher le mouvement de la cellule 2 tant que l'utilisateur 
       n'a pas demande la fin du programme. */
+
+srand(time(NULL));
   while (! fin_demandee)
     {
 #ifdef AFFICHAGE
@@ -91,11 +93,16 @@ int main(int argc, char* argv[])
     SDL_SetRenderDrawColor(rendeur1, 0, 0, 0, 255);
     SDL_RenderClear(rendeur1);
 #endif
-
-    x_antigene_1 += 0.01*((2*(double)rand()/RAND_MAX)-1);
-    y_antigene_1 += 0.01*((2*(double)rand()/RAND_MAX)-1);
+	if (0.03<y_antigene_1)
+	{
+    x_antigene_1 += 0.005*((2*(double)rand()/RAND_MAX)-1);
+    y_antigene_1 += 0.005*((2*(double)rand()/RAND_MAX)-1);
     x_antigene_1 -= floor(x_antigene_1);
-    y_antigene_1 -= floor(y_antigene_1);
+    	if (1<y_antigene_1)
+		{
+		y_antigene_1=2-y_antigene_1;
+		}
+	}
 #ifdef AFFICHAGE
     trace_antigene(x_antigene_1, y_antigene_1, 0.05, jaune);
      /* Mettre a jour l'affichage */
@@ -133,3 +140,4 @@ int main(int argc, char* argv[])
 #endif
   return 0;
 }
+
