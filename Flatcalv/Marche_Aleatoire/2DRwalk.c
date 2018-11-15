@@ -1,20 +1,20 @@
 /* Essai de programme utilisant SDL2. Compiler avec :
 cc -Wall -O3 -std=c99 exemple.c -DAFFICHAGE `sdl2-config --cflags --libs`
-(attention, sous Windows avec MinGW il est indispensables que les 
-bibliotheques, donc `sdl-config --cflags --libs`, soient a la fin de la 
+(attention, sous Windows avec MinGW il est indispensables que les
+bibliotheques, donc `sdl-config --cflags --libs`, soient a la fin de la
 ligne de commande, sinon l'edition de lien echoue).
-
- Pour assembler un film a partir des images enregistrees dans des 
+ Pour assembler un film a partir des images enregistrees dans des
 fichiers, utiliser :
 ffmpeg -f image2 -pattern_type glob -framerate 100 -i 'image*.bmp' film.avi
  */
-/* test */
+
+#include <stdlib.h>     /* srand, rand */
+#include <time.h>       /* time */
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
 #ifdef AFFICHAGE
 #include <SDL.h>
-#include <time.h>
 //#include <SDL_gfxPrimitives.h>
 #endif
 
@@ -78,14 +78,18 @@ int main(int argc, char* argv[])
   SDL_SetRenderDrawColor(rendeur1, 0, 0, 0, 255);
   SDL_RenderClear(rendeur1);
 #endif
+//initialise la matrice des positions
+double position[2][5];
+  for (int i = 0; i < 5; i++) {
+  position[0][i]= (double)rand()/(float)(RAND_MAX),
+  position[1][i]= (double)rand()/(float)(RAND_MAX);
 
-  float x_antigene_1= 0.5, y_antigene_1= 0.5;
+}
 
   int numero_d_image= 0;
-    /* Afficher le mouvement de la cellule 2 tant que l'utilisateur 
+    srand (time(NULL));
+    /* Afficher le mouvement de la cellule 2 tant que l'utilisateur
       n'a pas demande la fin du programme. */
-
-srand(time(NULL));
   while (! fin_demandee)
     {
 #ifdef AFFICHAGE
@@ -93,22 +97,41 @@ srand(time(NULL));
     SDL_SetRenderDrawColor(rendeur1, 0, 0, 0, 255);
     SDL_RenderClear(rendeur1);
 #endif
-	if (0.03<y_antigene_1)
-	{
-    x_antigene_1 += 0.005*((2*(double)rand()/RAND_MAX)-1);
-    y_antigene_1 += 0.005*((2*(double)rand()/RAND_MAX)-1);
+
+// Mouvement brownien des particules
+for (int i = 0; i < 5; i++) {
+if (position[1][i]>0.1) {
+  position[0][i] += 0.1*(((double)rand()/(float)(RAND_MAX))-0.5);
+  position[1][i] += 0.05*(((double)rand()/(float)(RAND_MAX))-0.5);
+  position[0][i] -= floor(position[0][i]); //condition periodique sur x
+  if (position[1][i]>1) {
+    position[1][i] = 2-position[1][i];
+  }
+}
+}
+//if (y_antigene_1>0.1 /*Condition de blocage au bord */) {
+/*
+    x_antigene_1 += 0.1*(((double)rand()/(float)(RAND_MAX))-0.5);
+    y_antigene_1 += 0.05*(((double)rand()/(float)(RAND_MAX))-0.5);
     x_antigene_1 -= floor(x_antigene_1);
-    	if (1<y_antigene_1)
-		{
-		y_antigene_1=2-y_antigene_1;
-		}
-	}
+    if (y_antigene_1>1) {
+      y_antigene_1 = 2-y_antigene_1;
+    }
+  // y_antigene_1 -= floor(y_antigene_1);
+  }
+*/
+
 #ifdef AFFICHAGE
-    trace_antigene(x_antigene_1, y_antigene_1, 0.05, jaune);
+
+for (int i = 0; i < 5; i++) {
+
+    trace_antigene(position[0][i], position[1][i], 0.05, jaune);
+  }
      /* Mettre a jour l'affichage */
     SDL_RenderPresent(rendeur1);
 
-    /* /* Enregistrer l'image dans un fichier
+/*
+   /* Enregistrer l'image dans un fichier
     numero_d_image++;
     if (numero_d_image < 10000)
       {
@@ -131,7 +154,7 @@ srand(time(NULL));
         case SDL_QUIT: fin_demandee= 1; break;
         }
 #endif
-    }
+}
 
    /* Fermer l'affichage */
 #ifdef AFFICHAGE
@@ -140,4 +163,3 @@ srand(time(NULL));
 #endif
   return 0;
 }
-
