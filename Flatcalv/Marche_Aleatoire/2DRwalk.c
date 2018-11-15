@@ -8,7 +8,7 @@ ligne de commande, sinon l'edition de lien echoue).
 fichiers, utiliser :
 ffmpeg -f image2 -pattern_type glob -framerate 100 -i 'image*.bmp' film.avi
  */
-
+/* test */
 #include <stdio.h>
 #include <math.h>
 #include <assert.h>
