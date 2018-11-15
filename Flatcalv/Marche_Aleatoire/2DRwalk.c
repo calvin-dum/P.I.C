@@ -7,7 +7,12 @@ ligne de commande, sinon l'edition de lien echoue).
 fichiers, utiliser :
 ffmpeg -f image2 -pattern_type glob -framerate 100 -i 'image*.bmp' film.avi
  */
-
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <map>
+#include <random>
+#include <cmath>
 #include <stdlib.h>     /* srand, rand */
 #include <time.h>       /* time */
 #include <stdio.h>
@@ -19,6 +24,7 @@ ffmpeg -f image2 -pattern_type glob -framerate 100 -i 'image*.bmp' film.avi
 #endif
 
 #ifdef AFFICHAGE
+using namespace std;
 const unsigned largeur_de_l_affichage=480, hauteur_de_l_affichage=480;
 const Uint8 couleurs[][4]=
   {
@@ -87,6 +93,16 @@ double position[2][5];
 }
 
   int numero_d_image= 0;
+
+//seed random gaussien
+random_device rd{};
+mt19937 gen{rd()};
+
+// values near the mean are the most likely
+// standard deviation affects the dispersion of generated values from the mean
+normal_distribution<double> d{0,0.001};
+
+  //seed la fonction random sur le temps
     srand (time(NULL));
     /* Afficher le mouvement de la cellule 2 tant que l'utilisateur
       n'a pas demande la fin du programme. */
@@ -101,8 +117,11 @@ double position[2][5];
 // Mouvement brownien des particules
 for (int i = 0; i < 5; i++) {
 if (position[1][i]>0.1) {
-  position[0][i] += 0.1*(((double)rand()/(float)(RAND_MAX))-0.5);
-  position[1][i] += 0.05*(((double)rand()/(float)(RAND_MAX))-0.5);
+  /* //Mouvement aleatoire non gaussien
+  position[0][i] += 0.05*(((double)rand()/(float)(RAND_MAX))-0.5);
+  position[1][i] += 0.05*(((double)rand()/(float)(RAND_MAX))-0.5);*/
+  position[0][i] += d(gen);
+  position[1][i] += d(gen);
   position[0][i] -= floor(position[0][i]); //condition periodique sur x
   if (position[1][i]>1) {
     position[1][i] = 2-position[1][i];
