@@ -92,13 +92,14 @@ random_device rd{};
 mt19937 gen{rd()};
 // values near the mean are the most likely
 // standard deviation affects the dispersion of generated values from the mean
-double tc=pow(10,-12);
+ 
+double tc=pow(10,-14);
 double m=3.18*pow(10,-23);
 double xc=pow(10,-3);
 double l=1.8*pow(10,-10);
 double Fr=0.066; 
 double A=-l*tc/m; //A et B sont les paramètres restant après adimensionnement
-double Br=Fr*pow(tc,2)/(m*xc);
+ double Br=Fr*pow(tc,2)/(m*xc);
 
 normal_distribution<double> d{0,Br};
   //seed la fonction random sur le temps
@@ -108,8 +109,8 @@ normal_distribution<double> d{0,Br};
 //initialise la matrice des vitesses
 double vitesse[2][5];
   for (int i = 0; i < 5; i++) {
-    vitesse[0][i]= 0;
-  vitesse[1][i]= 0;
+    vitesse[0][i]= d(gen);
+    vitesse[1][i]= d(gen);
 }
   while (! fin_demandee)
     {
@@ -120,31 +121,15 @@ double vitesse[2][5];
 #endif
 // Mouvement brownien des particules
 for (int i = 0; i < 5; i++) {
-if (position[1][i]>0.1) {
-  /* //Mouvement aleatoire non gaussien
-  position[0][i] += 0.05*(((double)rand()/(float)(RAND_MAX))-0.5);
-  position[1][i] += 0.05*(((double)rand()/(float)(RAND_MAX))-0.5);*/
+  if (position[1][i]>0.1) {
   vitesse[0][i]+=d(gen)+A*vitesse[0][i];//équa sur vitesse adim
   vitesse[1][i]+=d(gen)+A*vitesse[1][i];//équa sur vitesse adim
   position[0][i]+= vitesse[0][i];
   position[1][i]+= vitesse[1][i];
   position[0][i]-= floor(position[0][i]); //condition periodique sur x
-  if (position[1][i]>1) {
-    position[1][i] = 2-position[1][i];
-  }
+   position[1][i]-= floor(position[1][i]);}
 }
-}
-//if (y_antigene_1>0.1 /*Condition de blocage au bord */) {
-/*
-    x_antigene_1 += 0.1*(((double)rand()/(float)(RAND_MAX))-0.5);
-    y_antigene_1 += 0.05*(((double)rand()/(float)(RAND_MAX))-0.5);
-    x_antigene_1 -= floor(x_antigene_1);
-    if (y_antigene_1>1) {
-      y_antigene_1 = 2-y_antigene_1;
-    }
-  // y_antigene_1 -= floor(y_antigene_1);
-  }
-*/
+
 #ifdef AFFICHAGE
 for (int i = 0; i < 5; i++) {
     trace_antigene(position[0][i], position[1][i], 0.05, jaune);
