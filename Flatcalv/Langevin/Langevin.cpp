@@ -98,7 +98,7 @@ double xc=pow(10,-3);
 double l=1.8*pow(10,-10);
 double Fr=0.066; 
 double A=-l*tc/m; //A et B sont les paramètres restant après adimensionnement
- double Br=Fr*pow(tc,2)/(m*xc);
+double Br=Fr*pow(tc,2)/(m*xc);
 
 normal_distribution<double> d{0,Br};
   //seed la fonction random sur le temps
@@ -108,8 +108,8 @@ normal_distribution<double> d{0,Br};
 //initialise la matrice des vitesses
 double vitesse[2][5];
   for (int i = 0; i < 5; i++) {
-    vitesse[0][i]= d(gen);
-  vitesse[1][i]= d(gen);
+    vitesse[0][i]= 0;
+  vitesse[1][i]= 0;
 }
   while (! fin_demandee)
     {
