@@ -20,9 +20,9 @@ ffmpeg -f image2 -pattern_type glob -framerate 100 -i 'image*.bmp' film.avi
 #include <assert.h>
 #ifdef AFFICHAGE
 #include <SDL.h>
+#include <fstream>
 //#include <SDL_gfxPrimitives.h>
 #endif
-
 #ifdef AFFICHAGE
 using namespace std;
 const unsigned largeur_de_l_affichage=480, hauteur_de_l_affichage=480;
@@ -35,13 +35,11 @@ const Uint8 couleurs[][4]=
 const int bleu= 0, jaune= 1, noir= 2;
 SDL_Window * fenetre1;
 SDL_Renderer * rendeur1;
-
 static void trace_antigene(float x, float y, float rayon, int numero_de_couleur)
 {
   SDL_SetRenderDrawColor(rendeur1, couleurs[numero_de_couleur][0],
     couleurs[numero_de_couleur][1], couleurs[numero_de_couleur][2],
     couleurs[numero_de_couleur][3]);
-
   SDL_Rect r= {(int)((x-rayon/2) * largeur_de_l_affichage),
                (int)((y-rayon/2) * hauteur_de_l_affichage),
                (int)(rayon * largeur_de_l_affichage),
@@ -49,19 +47,16 @@ static void trace_antigene(float x, float y, float rayon, int numero_de_couleur)
   SDL_RenderDrawRect(rendeur1, &r);
 }
 #endif
-
 int main(int argc, char* argv[])
 {
   int fin_demandee= 0;
 #ifdef AFFICHAGE
   SDL_Event evenement;
-
   /* Initialiser la bibliotheque SDL2 */
   if( SDL_Init(SDL_INIT_VIDEO) < 0 ) {
     fprintf(stderr, "Impossible d'initialiser SDL2: %s\n", SDL_GetError());
     exit(1);
   }
-
   /* Initialiser une premiere fenetre (on peut en ouvrir d'autres). */
   fenetre1= SDL_CreateWindow("Fenetre 1",
     SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
@@ -89,30 +84,33 @@ double position[2][5];
   for (int i = 0; i < 5; i++) {
   position[0][i]= (double)rand()/(float)(RAND_MAX);
   position[1][i]= (double)rand()/(float)(RAND_MAX);
-
-}
-//initialise la matrice des vitesses
-double vitesse[2][5];
-  for (int i = 0; i < 5; i++) {
-  vitesse[0][i]= 0;
-  vitesse[1][i]= 0;
-
 }
 
   int numero_d_image= 0;
-
 //seed random gaussien
 random_device rd{};
 mt19937 gen{rd()};
-
 // values near the mean are the most likely
 // standard deviation affects the dispersion of generated values from the mean
-normal_distribution<double> d{0,0.001};
+double tc=pow(10,-12);
+double m=3.18*pow(10,-23);
+double xc=pow(10,-3);
+double l=1.8*pow(10,-10);
+double Fr=0.066; 
+double A=-l*tc/m; //A et B sont les paramètres restant après adimensionnement
+ double Br=Fr*pow(tc,2)/(m*xc);
 
+normal_distribution<double> d{0,Br};
   //seed la fonction random sur le temps
     srand (time(NULL));
     /* Afficher le mouvement de la cellule 2 tant que l'utilisateur
       n'a pas demande la fin du programme. */
+//initialise la matrice des vitesses
+double vitesse[2][5];
+  for (int i = 0; i < 5; i++) {
+    vitesse[0][i]= d(gen);
+  vitesse[1][i]= d(gen);
+}
   while (! fin_demandee)
     {
 #ifdef AFFICHAGE
@@ -120,20 +118,17 @@ normal_distribution<double> d{0,0.001};
     SDL_SetRenderDrawColor(rendeur1, 0, 0, 0, 255);
     SDL_RenderClear(rendeur1);
 #endif
-double lc=0.0001; //après adimensionnement seul D et lc demeurent, on les fixe
-double D=0.0001;
-double a=1.0;//a=lambda/m que je n'ai pas encore adimensionné
 // Mouvement brownien des particules
 for (int i = 0; i < 5; i++) {
 if (position[1][i]>0.1) {
   /* //Mouvement aleatoire non gaussien
   position[0][i] += 0.05*(((double)rand()/(float)(RAND_MAX))-0.5);
   position[1][i] += 0.05*(((double)rand()/(float)(RAND_MAX))-0.5);*/
-  vitesse[0][i]=(d(gen)*(pow(lc,3)/(D*D))-vitesse[0][i]*a*(lc*lc)/D);//équa sur vitesse adim
-  vitesse[1][i]=(d(gen)*(pow(lc,3)/(D*D))-vitesse[1][i]*a*(lc*lc)/D);//équa sur vitesse adim
-  position[0][i] += vitesse[0][i];
-  position[1][i] += vitesse[1][i];
-  position[0][i] -= floor(position[0][i]); //condition periodique sur x
+  vitesse[0][i]+=d(gen)+A*vitesse[0][i];//équa sur vitesse adim
+  vitesse[1][i]+=d(gen)+A*vitesse[1][i];//équa sur vitesse adim
+  position[0][i]+= vitesse[0][i];
+  position[1][i]+= vitesse[1][i];
+  position[0][i]-= floor(position[0][i]); //condition periodique sur x
   if (position[1][i]>1) {
     position[1][i] = 2-position[1][i];
   }
@@ -150,17 +145,12 @@ if (position[1][i]>0.1) {
   // y_antigene_1 -= floor(y_antigene_1);
   }
 */
-
 #ifdef AFFICHAGE
-
 for (int i = 0; i < 5; i++) {
-
     trace_antigene(position[0][i], position[1][i], 0.05, jaune);
   }
      /* Mettre a jour l'affichage */
     SDL_RenderPresent(rendeur1);
-
-
    /* Enregistrer l'image dans un fichier*/
 /*    numero_d_image++;
     if (numero_d_image < 10000)
@@ -185,7 +175,6 @@ for (int i = 0; i < 5; i++) {
         }
 #endif
 }
-
    /* Fermer l'affichage */
 #ifdef AFFICHAGE
   SDL_DestroyWindow(fenetre1);
