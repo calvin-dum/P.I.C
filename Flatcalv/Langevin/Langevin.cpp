@@ -79,12 +79,7 @@ int main(int argc, char* argv[])
   SDL_SetRenderDrawColor(rendeur1, 0, 0, 0, 255);
   SDL_RenderClear(rendeur1);
 #endif
-//initialise la matrice des positions
-double position[2][5];
-  for (int i = 0; i < 5; i++) {
-  position[0][i]= (double)rand()/(float)(RAND_MAX);
-  position[1][i]= (double)rand()/(float)(RAND_MAX);
-}
+
 
   int numero_d_image= 0;
 //seed random gaussien
@@ -99,18 +94,24 @@ double xc=pow(10,-3);
 double l=1.8*pow(10,-10);
 double Fr=0.066; 
 double A=-l*tc/m; //A et B sont les paramètres restant après adimensionnement
- double Br=Fr*pow(tc,2)/(m*xc);
-
+double Br=Fr*pow(tc,2)/(m*xc);
+ int N=500;
 normal_distribution<double> d{0,Br};
   //seed la fonction random sur le temps
     srand (time(NULL));
     /* Afficher le mouvement de la cellule 2 tant que l'utilisateur
       n'a pas demande la fin du programme. */
 //initialise la matrice des vitesses
-double vitesse[2][5];
-  for (int i = 0; i < 5; i++) {
+double vitesse[2][N];
+  for (int i = 0; i < N; i++) {
     vitesse[0][i]= d(gen);
     vitesse[1][i]= d(gen);
+}
+//initialise la matrice des positions
+double position[2][N];
+  for (int i = 0; i < N; i++) {
+  position[0][i]= 0.1+(double)rand()/(float)(RAND_MAX);
+  position[1][i]= 0.1+(double)rand()/(float)(RAND_MAX);
 }
   while (! fin_demandee)
     {
@@ -120,18 +121,21 @@ double vitesse[2][5];
     SDL_RenderClear(rendeur1);
 #endif
 // Mouvement brownien des particules
-for (int i = 0; i < 5; i++) {
-  if (position[1][i]>0.1) {
+for (int i = 0; i < N; i++) {
+  if (position[1][i]>0.05) {
   vitesse[0][i]+=d(gen)+A*vitesse[0][i];//équa sur vitesse adim
   vitesse[1][i]+=d(gen)+A*vitesse[1][i];//équa sur vitesse adim
   position[0][i]+= vitesse[0][i];
   position[1][i]+= vitesse[1][i];
   position[0][i]-= floor(position[0][i]); //condition periodique sur x
-   position[1][i]-= floor(position[1][i]);}
+  if (position[1][i]>1)
+    {
+    position[1][i]=2-position[1][i];
+  }
 }
-
+ }
 #ifdef AFFICHAGE
-for (int i = 0; i < 5; i++) {
+for (int i = 0; i < N; i++) {
     trace_antigene(position[0][i], position[1][i], 0.05, jaune);
   }
      /* Mettre a jour l'affichage */
