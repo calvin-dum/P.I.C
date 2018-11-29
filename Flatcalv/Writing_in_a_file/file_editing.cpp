@@ -11,11 +11,12 @@ bool exists_test (const std::string& name) {
   }
 }
 
-void write_in(char& buffer[256], int& numero_du_fichier, string const& fichier) {
+void write_in(int& numero_du_fichier, const char* modele_nom_fichier) {
 
-  snprintf(buffer, sizeof(buffer), fichier, numero_du_fichier);
+    char buffer[256];
+    snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
     while (exists_test(buffer)) {
-    snprintf(buffer, sizeof(buffer), fichier, numero_du_fichier);
+    snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
     numero_du_fichier+=1;
     }
     ofstream test;
@@ -38,11 +39,10 @@ int main() {
   //Bloc ayant pour fonction de checker l'existence d'un fichier
   int numero_du_fichier;
   numero_du_fichier=1;
-  char buffer[256];
 
 
 
- write_in(buffer, numero_du_fichier, "test%04d.txt");
+ write_in(numero_du_fichier, "test%04d.txt");
 
 
   return 0;
