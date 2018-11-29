@@ -47,6 +47,62 @@ static void trace_antigene(float x, float y, float rayon, int numero_de_couleur)
   SDL_RenderDrawRect(rendeur1, &r);
 }
 #endif
+
+//Définit une fonction testant si le fichier "name" est accessible (existe)
+bool exists_test (const std::string& name) {
+  if (FILE *file = fopen(name.c_str(), "r")) {
+      fclose(file);
+      return true;
+  } else {
+      return false;
+  }
+}
+
+void define_name(const char* modele_nom_fichier, int& numero_du_fichier ){
+
+  char buffer[256];
+  snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
+  while (exists_test(buffer)) {
+  printf(modele_nom_fichier, numero_du_fichier);
+  std::cout << numero_du_fichier << exists_test(buffer) <<'\n';
+  numero_du_fichier+=1;
+  snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
+  }
+
+}
+
+
+void write_in(int& numero_du_fichier, const char* modele_nom_fichier, const double& position_ou_vitesse) {
+
+    char buffer[256];
+    snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
+    ofstream test;
+    test.open(buffer, ios::app);
+    if (test.is_open())
+    {
+    test << position_ou_vitesse;
+    test << "  ";
+    test.close();
+    }
+    else cout << "unable to open text";
+
+}
+
+void write_endl(int& numero_du_fichier, const char* modele_nom_fichier) {
+
+    char buffer[256];
+    snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
+    ofstream test;
+    test.open(buffer, ios::app);
+    if (test.is_open())
+    {
+    test << "\n";
+    test.close();
+    }
+    else cout << "unable to open text";
+
+}
+
 int main(int argc, char* argv[])
 {
   int fin_demandee= 0;
@@ -80,22 +136,24 @@ int main(int argc, char* argv[])
   SDL_RenderClear(rendeur1);
 #endif
 
-
+  int numero_du_fichier= 1;
   int numero_d_image= 0;
+  char* modele_nom_fichier = "test%04d.txt";
 //seed random gaussien
 random_device rd{};
 mt19937 gen{rd()};
+define_name(modele_nom_fichier, numero_du_fichier);
 // values near the mean are the most likely
 // standard deviation affects the dispersion of generated values from the mean
- 
-double tc=pow(10,-14);
-double m=3.18*pow(10,-23);
-double xc=pow(10,-3);
-double l=1.8*pow(10,-10);
-double Fr=0.066; 
+
+double tc=pow(10,-14); //??? Constante de temps pour adimensionnement ???
+double m=3.18*pow(10,-23); //masse de la molecule
+double xc=pow(10,-3); //Longueur pour adimensionnement
+double l=1.8*pow(10,-10); // ????
+double Fr=0.066; //coeff friction ??
 double A=-l*tc/m; //A et B sont les paramètres restant après adimensionnement
-double Br=Fr*pow(tc,2)/(m*xc);
- int N=500;
+double Br=Fr*pow(tc,2)/(m*xc); // ???
+ int N=10; //Nombre de molécules en solution
 normal_distribution<double> d{0,Br};
   //seed la fonction random sur le temps
     srand (time(NULL));
@@ -128,12 +186,17 @@ for (int i = 0; i < N; i++) {
   position[0][i]+= vitesse[0][i];
   position[1][i]+= vitesse[1][i];
   position[0][i]-= floor(position[0][i]); //condition periodique sur x
+
+
   if (position[1][i]>1)
     {
     position[1][i]=2-position[1][i];
   }
 }
+  write_in(numero_du_fichier, modele_nom_fichier, position[0][i]);
+  write_in(numero_du_fichier, modele_nom_fichier, position[1][i]);
  }
+ write_endl(numero_du_fichier, modele_nom_fichier);
 #ifdef AFFICHAGE
 for (int i = 0; i < N; i++) {
     trace_antigene(position[0][i], position[1][i], 0.05, jaune);
