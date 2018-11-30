@@ -146,13 +146,13 @@ define_name(modele_nom_fichier, numero_du_fichier);
 // values near the mean are the most likely
 // standard deviation affects the dispersion of generated values from the mean
 
-double tc=pow(10,-14); //??? Constante de temps pour adimensionnement ???
+double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
 double m=3.18*pow(10,-23); //masse de la molecule
-double xc=pow(10,-3); //Longueur pour adimensionnement
-double l=1.8*pow(10,-10); // ????
-double Fr=0.066; //coeff friction ??
-double A=-l*tc/m; //A et B sont les paramètres restant après adimensionnement
-double Br=Fr*pow(tc,2)/(m*xc); // ???
+double xc=pow(10,-3); //Longueur pour adimensionnement telque Br~1 pour tc
+double l=1.8*pow(10,-10); // amortissement lambda
+double Fr=0.066; //ecart type de la force random
+double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
+double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
  int N=10; //Nombre de molécules en solution
 normal_distribution<double> d{0,Br};
   //seed la fonction random sur le temps
