@@ -234,11 +234,11 @@ int main(int argc, char* argv[])
 	#ifdef AFFICHAGE
 	for (int i = 0; i < Ng; i++)
 	{
-		trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.05, jaune);
+		trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.001, jaune);
 	}
 	for (int j=0;j<Nb;j++)
 	{
-		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.05,bleu);
+		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.009,bleu);
 	}
 	/* Mettre a jour l'affichage */
 	SDL_RenderPresent(rendeur1);
