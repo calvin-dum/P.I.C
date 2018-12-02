@@ -8,7 +8,7 @@
 
 Antibody::Antibody()
 {
-	srand (time(NULL)); //seed rand sur le temps
+	
 	m_state=true;
 	m_yposition=0;
 	m_xposition=(double)rand()/(float)(RAND_MAX);
