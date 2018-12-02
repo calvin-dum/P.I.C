@@ -12,13 +12,13 @@ using namespace std;
 
 Antigene::Antigene() //constructeur 
 {
-	srand (time(NULL));  //seed rand sur le temps
+
 	m_state=true;
 	m_xposition=(double)rand()/(float)(RAND_MAX);
 	m_yposition=(double)rand()/(float)(RAND_MAX);
 	m_xspeed=0;
 	m_yspeed=0;
-	m_radius=0.1;
+	m_radius=0.01;
 	m_cinetic=0;
 }
 
