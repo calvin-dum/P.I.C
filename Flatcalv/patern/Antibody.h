@@ -11,6 +11,7 @@ class Antibody
 	double getyposition() const;
 	bool getstate() const;
 	void changestate();
+	double getenergy();
 	private:
   
 	bool m_state;

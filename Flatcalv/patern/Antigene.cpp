@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <random>
+#include<math.h>
 
 using namespace std;
 
@@ -12,17 +13,16 @@ using namespace std;
 
 Antigene::Antigene() //constructeur 
 {
-
 	m_state=true;
 	m_xposition=(double)rand()/(float)(RAND_MAX);
 	m_yposition=(double)rand()/(float)(RAND_MAX);
 	m_xspeed=0;
 	m_yspeed=0;
-	m_radius=0.01;
+	m_radius=0.001;
 	m_cinetic=0;
 }
 
-void Antigene::bind(Antibody *cible) //méthode testant si un anticorps dispo est dans le rayon de antigene et alors change l'etat des deux en false
+void Antigene::bind(Antibody *cible, double M,double dG, double T) //méthode testant si un anticorps dispo est dans le rayon de antigene et alors change l'etat des deux en false
 {
 	if (m_state==true) //si l'antigene n'est pas apparié peut paraitre redondant mais permet d'éviter echange entre deux anticorps proches
 	{
@@ -31,8 +31,12 @@ void Antigene::bind(Antibody *cible) //méthode testant si un anticorps dispo es
 			double xcible=cible->getxposition(); 
 			if ( (pow(xcible-m_xposition,2)+pow(m_yposition,2))< m_radius) //on regarde si l'anticorps est dans la zone effet
 			{
-				m_state=false;
-				cible->changestate(); // on lie les deux
+				double l=(double)rand()/(RAND_MAX);
+				if (l> exp(-(dG-(M*pow(m_xspeed,2)*pow(m_yspeed,2))/2)/(T*1.3*pow(10,-23))))//proba est exp(-beta (Delta E)) 
+				{				
+					m_state=false;
+					cible->changestate(); // on lie les deux
+				}
 			}
 		}
 	 }

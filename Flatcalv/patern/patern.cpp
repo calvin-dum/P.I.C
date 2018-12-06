@@ -159,16 +159,17 @@ int main(int argc, char* argv[])
 
 	double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
 	double m=3.18*pow(10,-23); //masse de la molecule
+	double M=6.02*pow(10,23)*m;//masse molaire
 	double xc=pow(10,-3); //Longueur pour adimensionnement telque Br~1 pour tc
 	double l=1.8*pow(10,-10); // amortissement lambda
 	double Fr=0.066; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
-	int Ng=50; //Nombre de antigenes en solution
-	int Nb=1; //Nombre d'anticorps en solution
-
+	int Ng=20; //Nombre de antigenes en solution
+	int Nb=20; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps libre
 	int T=0; //Nombre servant à avoir le temps
+	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
 	normal_distribution<double> d{0,Br};
 
 	srand (time(NULL));//seed la fonction random sur le temps
@@ -199,7 +200,7 @@ int main(int argc, char* argv[])
 			{
 				for (int j=0;j<Nb;j++)
 				{
-					tabg[i]->bind(tabb[j]);
+					tabg[i]->bind(tabb[j],M,dG,T);
 				}
 				if (tabg[i]->getstate()==true)
 				{
@@ -223,8 +224,8 @@ int main(int argc, char* argv[])
 	}
 	if ((Nbp-Nba)!=0)
 	{
-		write_in(numero_du_fichier, modele_nom_fichier, Nba);
 		write_in(numero_du_fichier, modele_nom_fichier, T);
+		write_in(numero_du_fichier, modele_nom_fichier, (float)Nba/Nb);
 		write_endl(numero_du_fichier, modele_nom_fichier);
 	}
 	T+=1;
@@ -234,11 +235,11 @@ int main(int argc, char* argv[])
 	#ifdef AFFICHAGE
 	for (int i = 0; i < Ng; i++)
 	{
-		trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.001, jaune);
+		trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.01, jaune);
 	}
 	for (int j=0;j<Nb;j++)
 	{
-		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.009,bleu);
+		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.001,bleu);
 	}
 	/* Mettre a jour l'affichage */
 	SDL_RenderPresent(rendeur1);

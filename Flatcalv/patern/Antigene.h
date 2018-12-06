@@ -3,12 +3,13 @@
 
 #include <iostream>
 #include <string>
+#include<math.h>
 #include "Antibody.h"
 class Antigene
 {
 	public:
 	Antigene(); //constructeur
-	void bind(Antibody *cible);
+	void bind(Antibody *cible, double M, double dG, double T);
 	void motion(double A,double Br);
 	void changestate();
 	bool getstate() const;
