@@ -20,7 +20,7 @@ Antigene::Antigene() //constructeur
 	m_yposition=(double)rand()/(float)(RAND_MAX);
 	m_xspeed=0;
 	m_yspeed=0;
-	m_radius=0.1;
+	m_radius=0.01;
 	m_kinetic=0;
 }
 

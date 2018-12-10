@@ -9,7 +9,7 @@ class Antigene
 {
 	public:
 	Antigene(); //constructeur
-	void bind(Antibody *cible, double M, double dG, double T);
+	void bind(Antibody *cible, double M, double dG, double T, double probab);
 	void motion(double A,double Br);
 	void changestate();
 	bool getstate() const;

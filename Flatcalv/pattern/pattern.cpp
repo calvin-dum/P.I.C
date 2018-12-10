@@ -147,6 +147,11 @@ int main(int argc, char* argv[])
 	SDL_RenderClear(rendeur1);
 	#endif
 
+//Pour écriture fichier
+  int numero_du_fichier= 1;
+  int numero_d_image= 0;
+  char* modele_nom_fichier = "test%04d.txt";
+
 //seed random gaussien
 	random_device rd{};
 	mt19937 gen{rd()};
@@ -155,10 +160,9 @@ int main(int argc, char* argv[])
 // standard deviation affects the dispersion of generated values from the mean
 
 //Pour écriture fichier
-int numero_du_fichier= 1;
+/* int numero_du_fichier= 1;
 int numero_d_image= 0;
-char* modele_nom_fichier = "test%04d.txt";
-
+char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 
 	double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
 	double m=3.18*pow(10,-23); //masse de la molecule
@@ -173,7 +177,9 @@ char* modele_nom_fichier = "test%04d.txt";
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
 	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
-	normal_distribution<double> d{0,Br};
+  double probab=0.5; //test
+
+  normal_distribution<double> d{0,Br};
 
 	srand (time(NULL));//seed la fonction random sur le temps
 
@@ -187,7 +193,7 @@ char* modele_nom_fichier = "test%04d.txt";
 	{
 		tabb[j]= new Antibody(); //creer un tableau contenant Nb adresses d'antibody
 	}
-	while (! fin_demandee) // Afficher le mouvement de la cellule 2 tant que l'utilisateur n'a pas demande la fin du programme.
+	while (Nba<Ng) // Afficher le mouvement de la cellule 2 tant que l'utilisateur n'a pas demande la fin du programme.
 	{
 		#ifdef AFFICHAGE
 		/* On doit (avec SDL2) effacer toute la fenetre : */
@@ -203,7 +209,7 @@ char* modele_nom_fichier = "test%04d.txt";
 			{
 				for (int j=0;j<Nb;j++)
 				{
-					tabg[i]->bind(tabb[j],M,dG,T);
+					tabg[i]->bind(tabb[j],M,dG,T,probab);
 				}
 				if (tabg[i]->getstate()==true)
 				{
@@ -212,7 +218,7 @@ char* modele_nom_fichier = "test%04d.txt";
 			}
 			else
 			{
-				tabg[i]->motion(A,Br);
+				//tabg[i]->motion(A,Br);
 			}
 		}
 	}
@@ -238,11 +244,15 @@ char* modele_nom_fichier = "test%04d.txt";
   for (int i = 0; i < Ng; i++) {
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getxposition())*xc);
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getyposition())*xc);
-    write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->get())*xc/tc);
+    write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getxspeed())*xc/tc);
+    write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getyspeed())*xc/tc);
+
 
 
   }
-  write_endl();
+  write_in(numero_du_fichier, modele_nom_fichier, Nbp);
+  write_in(numero_du_fichier, modele_nom_fichier, T*tc);
+  write_endl(numero_du_fichier, modele_nom_fichier);
 
 
   T+=1;
@@ -256,7 +266,7 @@ char* modele_nom_fichier = "test%04d.txt";
 	}
 	for (int j=0;j<Nb;j++)
 	{
-		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.005,bleu);
+		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.01,bleu);
 	}
 	/* Mettre a jour l'affichage */
 	SDL_RenderPresent(rendeur1);
