@@ -225,13 +225,27 @@ char* modele_nom_fichier = "test%04d.txt";
 			Nbp+=1;
 		}
 	}
-	if ((Nbp-Nba)!=0)
+	/*if ((Nbp-Nba)!=0)
 	{
 		write_in(numero_du_fichier, modele_nom_fichier, T);
 		write_in(numero_du_fichier, modele_nom_fichier, (float)Nba/Nb);
 		write_endl(numero_du_fichier, modele_nom_fichier);
 	}
-	T+=1;
+  */
+  //On va ecrire dans le fichier
+  //par colonne : xi ,yi ,vxi ,vyi ,Nb antigene lies ,temps réel (T*tc)
+
+  for (int i = 0; i < Ng; i++) {
+    write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getxposition())*xc);
+    write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getyposition())*xc);
+    write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->get())*xc/tc);
+
+
+  }
+  write_endl();
+
+
+  T+=1;
 	Nba=Nbp;
 
 

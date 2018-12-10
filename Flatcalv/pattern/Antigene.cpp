@@ -21,7 +21,7 @@ Antigene::Antigene() //constructeur
 	m_xspeed=0;
 	m_yspeed=0;
 	m_radius=0.1;
-	m_cinetic=0;
+	m_kinetic=0;
 }
 
 void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab) //méthode testant si un anticorps dispo est dans le rayon de antigene et alors change l'etat des deux en false

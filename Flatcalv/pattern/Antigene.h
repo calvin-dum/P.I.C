@@ -25,7 +25,7 @@ class Antigene
 	double m_yposition;
 	double m_xspeed;
 	double m_yspeed;
-	double m_cinetic;
+	double m_kinetic;
 	double m_radius;
 };
 
