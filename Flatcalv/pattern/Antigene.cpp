@@ -101,3 +101,13 @@ double Antigene::getradius() const //accede au rayon de la zone d'effet
 {
 	return m_radius;
 }
+
+double Antigene::getxspeed() const //accede au rayon de la zone d'effet
+{
+	return m_xspeed;
+}
+
+double Antigene::getyspeed() const //accede au rayon de la zone d'effet
+{
+	return m_yspeed;
+}

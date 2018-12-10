@@ -16,16 +16,17 @@ class Antigene
 	double getxposition() const;
 	double getyposition() const;
 	double getradius() const;
+	double getxspeed() const;
+	double getyspeed() const;
 	private:
-  
+
 	bool m_state;
 	double m_xposition;
 	double m_yposition;
 	double m_xspeed;
 	double m_yspeed;
 	double m_cinetic;
-	double m_radius;  
+	double m_radius;
 };
 
 #endif
-
