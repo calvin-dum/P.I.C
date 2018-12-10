@@ -2,7 +2,7 @@
 
 #include "Antigene.h"
 #include "Antibody.h"
-#include "randoms.h"
+#include "Fct/Randomness/randoms.h"
 #include <stdlib.h>
 #include <time.h>
 #include <random>
@@ -33,10 +33,7 @@ void Antigene::bind(Antibody *cible, double M,double dG, double T) //méthode te
 			double xcible=cible->getxposition();
 			if ( (pow(xcible-m_xposition,2)+pow(m_yposition,2))< pow(m_radius,2)) //on regarde si l'anticorps est dans la zone effet, longueur au carré
 			{
-				default_random_engine generator;
-		  	uniform_real_distribution<double> distribution(0.0,1.0);
-				double l=distribution(generator);
-				distribution.reset();
+				double l=uniform(0.0,1.0);
 				std::cout << "l" << l << '\n';
 				if (l> exp(-(dG-(M*(pow(m_xspeed,2)+pow(m_yspeed,2)))/2)/(T*1.3*pow(10,-23))))//proba est exp(-beta (Delta E)) delta E étant dG- somme energies sur x et y
 				{

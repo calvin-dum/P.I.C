@@ -2,7 +2,7 @@
 #define RANDOMS_H_INCLUDED
 
 
-double uniform();
+double uniform(double a, double b);
 
 
 
