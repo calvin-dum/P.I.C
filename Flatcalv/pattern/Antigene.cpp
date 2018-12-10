@@ -40,7 +40,7 @@ void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab
 				//if (l> exp(-(dG-(M*(pow(m_xspeed,2)+pow(m_yspeed,2)))/2)/(T*1.3*pow(10,-23))))//proba est exp(-beta (Delta E)) delta E étant dG- somme energies sur x et y
 				if(p<probab)
 				{
-					m_state=false;
+					changestate();
 					cible->changestate(); // on lie les deux
 				}
 			}

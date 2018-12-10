@@ -172,7 +172,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	double Fr=0.066; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
-	int Ng=10; //Nombre de antigenes en solution
+	int Ng=2; //Nombre de antigenes en solution
 	int Nb=200; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
@@ -193,7 +193,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	{
 		tabb[j]= new Antibody(); //creer un tableau contenant Nb adresses d'antibody
 	}
-	while (Nba<Ng) // Afficher le mouvement de la cellule 2 tant que l'utilisateur n'a pas demande la fin du programme.
+	while (! fin_demandee) // Afficher le mouvement de la cellule 2 tant que l'utilisateur n'a pas demande la fin du programme.
 	{
 		#ifdef AFFICHAGE
 		/* On doit (avec SDL2) effacer toute la fenetre : */
@@ -218,7 +218,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 			}
 			else
 			{
-				//tabg[i]->motion(A,Br);
+			     tabg[i]->motion(A,Br);
 			}
 		}
 	}
@@ -257,6 +257,9 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 
   T+=1;
 	Nba=Nbp;
+  if (Nba==Ng) {
+    fin_demandee=1;
+  }
 
 
 	#ifdef AFFICHAGE
