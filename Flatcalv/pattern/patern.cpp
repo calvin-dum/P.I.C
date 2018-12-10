@@ -1,4 +1,4 @@
-/* compiler avec : c++ -Wall -O3 -std=c++11 Antigene.cpp Antibody.cpp patern.cpp -lm -DAFFICHAGE `sdl2-config --cflags --libs`
+/* compiler avec : c++ -Wall -O3 -std=c++11 "Fct/Randomness/randoms.cpp" Antigene.cpp Antibody.cpp patern.cpp -lm -DAFFICHAGE `sdl2-config --cflags --libs`
 
 
 Pour assembler un film a partir des images enregistrees dans des fichiers, utiliser :
@@ -147,15 +147,18 @@ int main(int argc, char* argv[])
 	SDL_RenderClear(rendeur1);
 	#endif
 
-	int numero_du_fichier= 1;
-	int numero_d_image= 0;
-	char* modele_nom_fichier = "test%04d.txt";
 //seed random gaussien
 	random_device rd{};
 	mt19937 gen{rd()};
 	define_name(modele_nom_fichier, numero_du_fichier);
 // values near the mean are the most likely
 // standard deviation affects the dispersion of generated values from the mean
+
+//Pour écriture fichier
+int numero_du_fichier= 1;
+int numero_d_image= 0;
+char* modele_nom_fichier = "test%04d.txt";
+
 
 	double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
 	double m=3.18*pow(10,-23); //masse de la molecule
@@ -167,7 +170,7 @@ int main(int argc, char* argv[])
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
 	int Ng=10; //Nombre de antigenes en solution
 	int Nb=200; //Nombre d'anticorps en solution
-	int Nba=0; //Nombre servant à compter le nombre d'anticorps libre
+	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
 	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
 	normal_distribution<double> d{0,Br};
