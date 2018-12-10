@@ -49,14 +49,14 @@ static void trace_antigene(float x, float y, float rayon, int numero_de_couleur)
 #endif
 
 //Définit une fonction testant si le fichier "name" est accessible (existe)
-bool exists_test (const std::string& name) 
+bool exists_test (const std::string& name)
 {
-	if (FILE *file = fopen(name.c_str(), "r")) 
+	if (FILE *file = fopen(name.c_str(), "r"))
 	{
 	    fclose(file);
 	    return true;
 	}
-	 else 
+	 else
 	{
 	    return false;
 	}
@@ -66,7 +66,7 @@ void define_name(const char* modele_nom_fichier, int& numero_du_fichier )
 {
 	char buffer[256];
 	snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
-	while (exists_test(buffer)) 
+	while (exists_test(buffer))
 	{
 		printf(modele_nom_fichier, numero_du_fichier);
 		std::cout << numero_du_fichier << exists_test(buffer) <<'\n';
@@ -76,7 +76,7 @@ void define_name(const char* modele_nom_fichier, int& numero_du_fichier )
 }
 
 
-void write_in(int& numero_du_fichier, const char* modele_nom_fichier, const double& position_ou_vitesse) 
+void write_in(int& numero_du_fichier, const char* modele_nom_fichier, const double& position_ou_vitesse)
 {
 	char buffer[256];
 	snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
@@ -88,13 +88,13 @@ void write_in(int& numero_du_fichier, const char* modele_nom_fichier, const doub
 		test << "  ";
 		test.close();
 	}
-	else 
+	else
 	{
 		cout << "unable to open text";
 	}
 }
 
-void write_endl(int& numero_du_fichier, const char* modele_nom_fichier) 
+void write_endl(int& numero_du_fichier, const char* modele_nom_fichier)
 {
 	char buffer[256];
 	snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
@@ -105,7 +105,7 @@ void write_endl(int& numero_du_fichier, const char* modele_nom_fichier)
 		test << "\n";
 		test.close();
 	}
-	else 
+	else
 	{
 		cout << "unable to open text";
 	}
@@ -117,7 +117,7 @@ int main(int argc, char* argv[])
 	#ifdef AFFICHAGE
 	SDL_Event evenement;
 /* Initialiser la bibliotheque SDL2 */
-	if( SDL_Init(SDL_INIT_VIDEO) < 0 ) 
+	if( SDL_Init(SDL_INIT_VIDEO) < 0 )
 	{
 		fprintf(stderr, "Impossible d'initialiser SDL2: %s\n", SDL_GetError());
 		exit(1);
@@ -126,16 +126,16 @@ int main(int argc, char* argv[])
 	fenetre1= SDL_CreateWindow("Fenetre 1",
 	SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 	largeur_de_l_affichage, hauteur_de_l_affichage, SDL_SWSURFACE);
-	if ( fenetre1 == NULL ) 
+	if ( fenetre1 == NULL )
 	{
 		fprintf(stderr, "Je n'ai pas reussi a creer la premiere fenetre "
          	"de taille %ux%u pour la raison suivante : %s\n",
                 largeur_de_l_affichage, hauteur_de_l_affichage,
                 SDL_GetError());
-		exit(1); 
+		exit(1);
 	}
 	rendeur1= SDL_CreateRenderer(fenetre1, -1, 0);
-	if ( rendeur1 == NULL ) 
+	if ( rendeur1 == NULL )
 	{
 	fprintf(stderr, "Je n'ai pas reussi a creer le premier rendeur "
 		"pour la raison suivante : %s\n",
@@ -174,7 +174,7 @@ int main(int argc, char* argv[])
 
 	srand (time(NULL));//seed la fonction random sur le temps
 
-	Antigene *tabg[Ng]; 
+	Antigene *tabg[Ng];
 	for(int i=0; i<Ng; i++)
 	{
 		tabg[i]=new Antigene(); //creer un tableau contenant Ng adresses d'antigene
@@ -183,8 +183,8 @@ int main(int argc, char* argv[])
 	for(int j=0;j<Nb; j++)
 	{
 		tabb[j]= new Antibody(); //creer un tableau contenant Nb adresses d'antibody
-	}	
-	while (! fin_demandee) // Afficher le mouvement de la cellule 2 tant que l'utilisateur n'a pas demande la fin du programme. 
+	}
+	while (! fin_demandee) // Afficher le mouvement de la cellule 2 tant que l'utilisateur n'a pas demande la fin du programme.
 	{
 		#ifdef AFFICHAGE
 		/* On doit (avec SDL2) effacer toute la fenetre : */
@@ -211,10 +211,10 @@ int main(int argc, char* argv[])
 			{
 				tabg[i]->motion(A,Br);
 			}
-		} 
+		}
 	}
-	int Nbp=0;// pour compter les anticorps libres	
-/*On va tracer Nb lié(t)*/		
+	int Nbp=0;// pour compter les anticorps libres
+/*On va tracer Nb lié(t)*/
 	for (int j=0;j<Nb;j++)
 	{
 		if ((tabb[j]->getstate())==false)
@@ -230,16 +230,16 @@ int main(int argc, char* argv[])
 	}
 	T+=1;
 	Nba=Nbp;
-	
+
 
 	#ifdef AFFICHAGE
 	for (int i = 0; i < Ng; i++)
 	{
-		trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.01, jaune);
+		trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03, jaune);
 	}
 	for (int j=0;j<Nb;j++)
 	{
-		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.001,bleu);
+		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.005,bleu);
 	}
 	/* Mettre a jour l'affichage */
 	SDL_RenderPresent(rendeur1);
@@ -256,7 +256,7 @@ int main(int argc, char* argv[])
 		SDL_FreeSurface(s);
 	}*/
 	if (SDL_PollEvent(&evenement))
-	
+
 		switch (evenement.type)
         	{
 	        	case SDL_QUIT: fin_demandee= 1; break;
