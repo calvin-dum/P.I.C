@@ -78,6 +78,8 @@ void Antigene::changestate() //lie un antigene
 	if (m_state==true)
 	{
 		m_state=false;
+		m_xspeed=0;
+		m_yspeed=0;
 	}
 	else
 	{
