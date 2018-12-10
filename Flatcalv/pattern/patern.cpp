@@ -165,8 +165,8 @@ int main(int argc, char* argv[])
 	double Fr=0.066; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
-	int Ng=20; //Nombre de antigenes en solution
-	int Nb=20; //Nombre d'anticorps en solution
+	int Ng=10; //Nombre de antigenes en solution
+	int Nb=200; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps libre
 	int T=0; //Nombre servant à avoir le temps
 	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné

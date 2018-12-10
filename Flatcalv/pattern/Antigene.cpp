@@ -2,23 +2,25 @@
 
 #include "Antigene.h"
 #include "Antibody.h"
+#include "randoms.h"
 #include <stdlib.h>
 #include <time.h>
 #include <random>
 #include<math.h>
+#include <iostream>
 
 using namespace std;
 
 
 
-Antigene::Antigene() //constructeur 
+Antigene::Antigene() //constructeur
 {
 	m_state=true;
 	m_xposition=(double)rand()/(float)(RAND_MAX);
 	m_yposition=(double)rand()/(float)(RAND_MAX);
 	m_xspeed=0;
 	m_yspeed=0;
-	m_radius=0.001;
+	m_radius=0.1;
 	m_cinetic=0;
 }
 
@@ -28,12 +30,16 @@ void Antigene::bind(Antibody *cible, double M,double dG, double T) //méthode te
 	{
 		if (cible->getstate()==true) //si l'anticorps n'est pas apparié
 		{
-			double xcible=cible->getxposition(); 
-			if ( (pow(xcible-m_xposition,2)+pow(m_yposition,2))< m_radius) //on regarde si l'anticorps est dans la zone effet
+			double xcible=cible->getxposition();
+			if ( (pow(xcible-m_xposition,2)+pow(m_yposition,2))< pow(m_radius,2)) //on regarde si l'anticorps est dans la zone effet, longueur au carré
 			{
-				double l=(double)rand()/(RAND_MAX);
-				if (l> exp(-(dG-(M*pow(m_xspeed,2)*pow(m_yspeed,2))/2)/(T*1.3*pow(10,-23))))//proba est exp(-beta (Delta E)) 
-				{				
+				default_random_engine generator;
+		  	uniform_real_distribution<double> distribution(0.0,1.0);
+				double l=distribution(generator);
+				distribution.reset();
+				std::cout << "l" << l << '\n';
+				if (l> exp(-(dG-(M*(pow(m_xspeed,2)+pow(m_yspeed,2)))/2)/(T*1.3*pow(10,-23))))//proba est exp(-beta (Delta E)) delta E étant dG- somme energies sur x et y
+				{
 					m_state=false;
 					cible->changestate(); // on lie les deux
 				}
