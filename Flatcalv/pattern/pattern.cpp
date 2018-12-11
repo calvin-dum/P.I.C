@@ -177,7 +177,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
 	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
-  double probab=0.5; //test
+  double probab=0.1; //test
 
   normal_distribution<double> d{0,Br};
 

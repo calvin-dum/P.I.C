@@ -23,7 +23,7 @@ Antigene::Antigene() //constructeur
 	m_radius=0.01;
 	m_kinetic=0;
 	in_zones=0;
-	time_in_zone=0;
+	time_in_zone=1;
 }
 
 void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab) //méthode testant si un anticorps dispo est dans le rayon de antigene et alors change l'etat des deux en false
@@ -38,9 +38,9 @@ void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab
 				double p=uniform(0.0,1.0);
 				std::cout << "p" << p << '\n';
 				std::cout << "compared to" << '\n';
-				std::cout << "proba" << probab << '\n';
+				std::cout << "proba" << (double) probab*time_in_zone << '\n';
 				//if (l> exp(-(dG-(M*(pow(m_xspeed,2)+pow(m_yspeed,2)))/2)/(T*1.3*pow(10,-23))))//proba est exp(-beta (Delta E)) delta E étant dG- somme energies sur x et y
-				if(p<probab*time_in_zone)
+				if(p<(double) probab*time_in_zone)
 				{
 					changestate();
 					cible->changestate(); // on lie les deux
@@ -107,7 +107,7 @@ void Antigene::notifyzones() //modifie le booleen pour indiquer la zone
 
 }
 
-void incrementtimeinzone();
+void Antigene::incrementtimeinzone()
 {
 
 	if (in_zones) {
@@ -115,7 +115,7 @@ void incrementtimeinzone();
 	}
 	else
 	{
-		time_in_zone=0;
+		time_in_zone=1;
 
 	}
 
