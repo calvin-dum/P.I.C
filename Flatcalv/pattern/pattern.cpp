@@ -163,21 +163,21 @@ int main(int argc, char* argv[])
 /* int numero_du_fichier= 1;
 int numero_d_image= 0;
 char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
-
+  double prefact=1.0; //prefacteur devant fonction erfc dans probabt
+  double probabt=1e-3;
 	double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
 	double m=3.18*pow(10,-23); //masse de la molecule
 	double M=6.02*pow(10,23)*m;//masse molaire
-	double xc=pow(10,-3); //Longueur pour adimensionnement telque Br~1 pour tc
+	double xc=pow(10,-9); //Longueur pour adimensionnement telque Br~1 pour tc
 	double l=1.8*pow(10,-10); // amortissement lambda
-	double Fr=0.066; //ecart type de la force random
+	double Fr=0.00000066; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
-	int Ng=2; //Nombre de antigenes en solution
+	int Ng=50; //Nombre de antigenes en solution
 	int Nb=200; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
 	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
-  double probab=0.1; //test
 
   normal_distribution<double> d{0,Br};
 
@@ -211,7 +211,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 				{
           tabg[i]->notifyzones();
           tabg[i]->incrementtimeinzone();
-					tabg[i]->bind(tabb[j],M,dG,T,probab);
+					tabg[i]->bind(tabb[j],M,dG,T,probabt,tc,prefact);
 				}
 				if (tabg[i]->getstate()==true)
 				{
@@ -233,17 +233,11 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 			Nbp+=1;
 		}
 	}
-	/*if ((Nbp-Nba)!=0)
-	{
-		write_in(numero_du_fichier, modele_nom_fichier, T);
-		write_in(numero_du_fichier, modele_nom_fichier, (float)Nba/Nb);
-		write_endl(numero_du_fichier, modele_nom_fichier);
-	}
-  */
+
   //On va ecrire dans le fichier
   //par colonne : xi ,yi ,vxi ,vyi ,Nb antigene lies ,temps réel (T*tc)
 
-  for (int i = 0; i < Ng; i++) {
+/*  for (int i = 0; i < Ng; i++) {
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getxposition())*xc);
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getyposition())*xc);
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getxspeed())*xc/tc);
@@ -255,7 +249,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
   write_in(numero_du_fichier, modele_nom_fichier, Nbp);
   write_in(numero_du_fichier, modele_nom_fichier, T*tc);
   write_endl(numero_du_fichier, modele_nom_fichier);
-
+*/
 
   T+=1;
 	Nba=Nbp;

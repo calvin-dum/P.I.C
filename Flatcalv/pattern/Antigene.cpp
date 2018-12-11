@@ -26,7 +26,7 @@ Antigene::Antigene() //constructeur
 	time_in_zone=1;
 }
 
-void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab) //méthode testant si un anticorps dispo est dans le rayon de antigene et alors change l'etat des deux en false
+void Antigene::bind(Antibody *cible, double M,double dG, double T, double probabt, double tc, double prefact) //méthode testant si un anticorps dispo est dans le rayon de antigene et alors change l'etat des deux en false
 {
 	if (m_state==true) //si l'antigene n'est pas apparié peut paraitre redondant mais permet d'éviter echange entre deux anticorps proches
 	{
@@ -38,9 +38,10 @@ void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab
 				double p=uniform(0.0,1.0);
 				std::cout << "p" << p << '\n';
 				std::cout << "compared to" << '\n';
-				std::cout << "proba" << (double) probab*time_in_zone << '\n';
+			//	std::cout << "proba" << (double) probab*time_in_zone << '\n';
+				std::cout << "proba" << (long double) prefact*erfcl(sqrt((double)probabt/(time_in_zone*tc))) << '\n';
 				//if (l> exp(-(dG-(M*(pow(m_xspeed,2)+pow(m_yspeed,2)))/2)/(T*1.3*pow(10,-23))))//proba est exp(-beta (Delta E)) delta E étant dG- somme energies sur x et y
-				if(p<(double) probab*time_in_zone)
+				if(p<(double) prefact*erfcl(sqrt((double)probabt/(time_in_zone*tc))))
 				{
 					changestate();
 					cible->changestate(); // on lie les deux
@@ -91,13 +92,13 @@ void Antigene::changestate() //lie un antigene
 
 void Antigene::notifyzones() //modifie le booleen pour indiquer la zone
 {
-	if (m_yposition<m_radius)
+	if (m_yposition<0.5)//m_radius)
 	{
 			if (! in_zones) {
 				in_zones=true;
 			}
 	}
-	if (m_yposition>2*m_radius)
+	if (m_yposition>0.7)//2*m_radius)
 	{
 		if (in_zones) {
 			in_zones=false;

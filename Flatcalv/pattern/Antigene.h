@@ -9,7 +9,7 @@ class Antigene
 {
 	public:
 	Antigene(); //constructeur
-	void bind(Antibody *cible, double M, double dG, double T, double probab);
+	void bind(Antibody *cible, double M, double dG, double T, double probabt, double tc, double prefact);
 	void motion(double A,double Br);
 	void changestate();
 	void notifyzones();
