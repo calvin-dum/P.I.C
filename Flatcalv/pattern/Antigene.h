@@ -12,7 +12,11 @@ class Antigene
 	void bind(Antibody *cible, double M, double dG, double T, double probab);
 	void motion(double A,double Br);
 	void changestate();
+	void notifyzones();
+	void incrementtimeinzone();
 	bool getstate() const;
+	bool getzones() const;
+	int gettimeinzone() const;
 	double getxposition() const;
 	double getyposition() const;
 	double getradius() const;
@@ -21,6 +25,8 @@ class Antigene
 	private:
 
 	bool m_state;
+	bool in_zones;
+	int time_in_zone;
 	double m_xposition;
 	double m_yposition;
 	double m_xspeed;

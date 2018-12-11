@@ -22,6 +22,8 @@ Antigene::Antigene() //constructeur
 	m_yspeed=0;
 	m_radius=0.01;
 	m_kinetic=0;
+	in_zones=0;
+	time_in_zone=0;
 }
 
 void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab) //méthode testant si un anticorps dispo est dans le rayon de antigene et alors change l'etat des deux en false
@@ -38,7 +40,7 @@ void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab
 				std::cout << "compared to" << '\n';
 				std::cout << "proba" << probab << '\n';
 				//if (l> exp(-(dG-(M*(pow(m_xspeed,2)+pow(m_yspeed,2)))/2)/(T*1.3*pow(10,-23))))//proba est exp(-beta (Delta E)) delta E étant dG- somme energies sur x et y
-				if(p<probab)
+				if(p<probab*time_in_zone)
 				{
 					changestate();
 					cible->changestate(); // on lie les deux
@@ -87,6 +89,51 @@ void Antigene::changestate() //lie un antigene
 	}
 }
 
+void Antigene::notifyzones() //modifie le booleen pour indiquer la zone
+{
+	if (m_yposition<m_radius)
+	{
+			if (! in_zones) {
+				in_zones=true;
+			}
+	}
+	if (m_yposition>2*m_radius)
+	{
+		if (in_zones) {
+			in_zones=false;
+		}
+
+	}
+
+}
+
+void incrementtimeinzone();
+{
+
+	if (in_zones) {
+		time_in_zone++;
+	}
+	else
+	{
+		time_in_zone=0;
+
+	}
+
+}
+
+bool Antigene::getzones() const //liste de deux booléens, 1er renseigne si antigene est dans petite zone, l'autre pour une zone plus grande.
+{
+	return in_zones;
+
+}
+
+
+int Antigene::gettimeinzone() const //outil pour multiplier la probab en fonction du temps en in_zones
+{
+
+	return time_in_zone;
+
+}
 double Antigene::getxposition() const //accede à la position x
 {
 	return m_xposition;

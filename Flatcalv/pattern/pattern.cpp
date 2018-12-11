@@ -209,6 +209,8 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 			{
 				for (int j=0;j<Nb;j++)
 				{
+          tabg[i]->notifyzones();
+          tabg[i]->incrementtimeinzone();
 					tabg[i]->bind(tabb[j],M,dG,T,probab);
 				}
 				if (tabg[i]->getstate()==true)
