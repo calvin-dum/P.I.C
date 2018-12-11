@@ -26,7 +26,7 @@ ffmpeg -f image2 -pattern_type glob -framerate 100 -i 'image*.bmp' film.avi */
 #ifdef AFFICHAGE
 using namespace std;
 const unsigned largeur_de_l_affichage=480, hauteur_de_l_affichage=480;
-const Uint8 couleur[4]={ 255, 255,   0, 255 };
+Uint8 couleur[4]={ 255, 255,   0, 255 };
 const Uint8 couleurs[][4]=
   {
     { 0,     0, 255, 255 }, /* bleu */
@@ -48,7 +48,7 @@ static void trace_antigene(float x, float y, float rayon, int numero_de_couleur)
 	SDL_RenderDrawRect(rendeur1, &r);
 }
 
-/* static void trace_antigenevolv(float x, float y, float rayon, int couleur[4])
+static void trace_antigenevolv(float x, float y, float rayon, Uint8 couleur[4])
 {
 	SDL_SetRenderDrawColor(rendeur1, couleur[0],
 	couleur[1], couleur[2],
@@ -59,7 +59,7 @@ static void trace_antigene(float x, float y, float rayon, int numero_de_couleur)
 	             (int)(rayon * hauteur_de_l_affichage)};
 	SDL_RenderDrawRect(rendeur1, &r);
 }
-*/
+
 
 #endif
 
@@ -183,12 +183,12 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
 	double m=3.18*pow(10,-23); //masse de la molecule
 	double M=6.02*pow(10,23)*m;//masse molaire
-	double xc=pow(10,-8); //Longueur pour adimensionnement telque Br~1 pour tc
+	double xc=pow(10,-3); //Longueur pour adimensionnement telque Br~1 pour tc
 	double l=1.8*pow(10,-10); // amortissement lambda
 	double Fr=0.00000066; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
-	int Ng=50; //Nombre de antigenes en solution
+	int Ng=2; //Nombre de antigenes en solution
 	int Nb=200; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
@@ -252,7 +252,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
   //On va ecrire dans le fichier
   //par colonne : xi ,yi ,vxi ,vyi ,Nb antigene lies ,temps réel (T*tc)
 
-/*  for (int i = 0; i < Ng; i++) {
+ for (int i = 0; i < Ng; i++) {
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getxposition())*xc);
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getyposition())*xc);
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getxspeed())*xc/tc);
@@ -264,7 +264,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
   write_in(numero_du_fichier, modele_nom_fichier, Nbp);
   write_in(numero_du_fichier, modele_nom_fichier, T*tc);
   write_endl(numero_du_fichier, modele_nom_fichier);
-*/
+
 
   T+=1;
 	Nba=Nbp;
@@ -276,7 +276,9 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	#ifdef AFFICHAGE
 	for (int i = 0; i < Ng; i++)
 	{
-		trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,jaune);
+    //couleur[0]= i;
+    couleur[1]= i;
+		trace_antigenevolv(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,couleur);
 	}
 	for (int j=0;j<Nb;j++)
 	{
