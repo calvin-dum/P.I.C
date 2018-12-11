@@ -2,12 +2,13 @@ import os
 import glob
 import numpy as np
 
-l=glob.glob('/home/semmer/Bureau/sbcp/projet_num/flatcal/code_source/stat/resultats/test*.txt');
+liste=glob.glob('/home/semmer/Bureau/sbcp/projet_num/flatcal/code_source/stat/resultats/test*.txt');#l est une liste dont chaque element est l'adresse d'un fichier commençant par test et finissant par.txt
 Xerror=[];
 Xm=[];
 Y=[];
 print(l);
-for i in range(15):
+#précise que ce programme marche surtout pour faire des moyennes sur plusieurs ./a.out dans le cas particulier où l'on veut taux de saturation en fonction de t. Il est donc à modifier
+for i in range(15):#le range vaut E(Ng*0.8)
 	x=[];
 	for j in l:
 		fichier=open(j,"r");
@@ -15,7 +16,7 @@ for i in range(15):
 		c=(contenu.split(" "));
 		print(c);
 		for z in range(len(c)//2):
-			if float(c[1+2*z])==(float(i)/20):
+			if float(c[1+2*z])==(float(i)/20):#float(i)/Ng
 				c[2*z]=c[2*z].replace('\n','');
 				x.append(float(c[2*z]));
 		fichier.close();
