@@ -40,6 +40,7 @@ void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab
 				std::cout << "compared to" << '\n';
 			//	std::cout << "proba" << (double) probab*time_in_zone << '\n';
 				std::cout << "proba" << (long double) prefact*erfcl(sqrt((double)probabt/(time_in_zone*tc))) << '\n';
+				std::cout << "time in zone" << time_in_zone << '\n';
 				//if (l> exp(-(dG-(M*(pow(m_xspeed,2)+pow(m_yspeed,2)))/2)/(T*1.3*pow(10,-23))))//proba est exp(-beta (Delta E)) delta E étant dG- somme energies sur x et y
 				if(p<(double) prefact*erfcl(sqrt((double)probabt/(time_in_zone*tc))))
 				{

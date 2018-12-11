@@ -26,6 +26,7 @@ ffmpeg -f image2 -pattern_type glob -framerate 100 -i 'image*.bmp' film.avi */
 #ifdef AFFICHAGE
 using namespace std;
 const unsigned largeur_de_l_affichage=480, hauteur_de_l_affichage=480;
+const Uint8 couleur[4]={ 255, 255,   0, 255 };
 const Uint8 couleurs[][4]=
   {
     { 0,     0, 255, 255 }, /* bleu */
@@ -46,6 +47,20 @@ static void trace_antigene(float x, float y, float rayon, int numero_de_couleur)
 	             (int)(rayon * hauteur_de_l_affichage)};
 	SDL_RenderDrawRect(rendeur1, &r);
 }
+
+/* static void trace_antigenevolv(float x, float y, float rayon, int couleur[4])
+{
+	SDL_SetRenderDrawColor(rendeur1, couleur[0],
+	couleur[1], couleur[2],
+	couleur[3]);
+	SDL_Rect r= {(int)((x-rayon/2) * largeur_de_l_affichage),
+	             (int)((y-rayon/2) * hauteur_de_l_affichage),
+	             (int)(rayon * largeur_de_l_affichage),
+	             (int)(rayon * hauteur_de_l_affichage)};
+	SDL_RenderDrawRect(rendeur1, &r);
+}
+*/
+
 #endif
 
 //Définit une fonction testant si le fichier "name" est accessible (existe)
@@ -164,11 +179,11 @@ int main(int argc, char* argv[])
 int numero_d_image= 0;
 char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
   double prefact=1.0; //prefacteur devant fonction erfc dans probabt
-  double probabt=1e-3;
+  double probabt=1e-9;
 	double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
 	double m=3.18*pow(10,-23); //masse de la molecule
 	double M=6.02*pow(10,23)*m;//masse molaire
-	double xc=pow(10,-9); //Longueur pour adimensionnement telque Br~1 pour tc
+	double xc=pow(10,-8); //Longueur pour adimensionnement telque Br~1 pour tc
 	double l=1.8*pow(10,-10); // amortissement lambda
 	double Fr=0.00000066; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
@@ -261,7 +276,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	#ifdef AFFICHAGE
 	for (int i = 0; i < Ng; i++)
 	{
-		trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03, jaune);
+		trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,jaune);
 	}
 	for (int j=0;j<Nb;j++)
 	{
