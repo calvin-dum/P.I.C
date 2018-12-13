@@ -183,12 +183,13 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
 	double m=3.18*pow(10,-23); //masse de la molecule
 	double M=6.02*pow(10,23)*m;//masse molaire
-	double xc=pow(10,-3); //Longueur pour adimensionnement telque Br~1 pour tc
+	double xc=pow(10,-7); //Longueur pour adimensionnement telque Br~1 pour tc
 	double l=1.8*pow(10,-10); // amortissement lambda
-	double Fr=0.00000066; //ecart type de la force random
+  double Fr=0.00000066; //ecart type de la force random
+  //double Fr=0.00000016; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
-	int Ng=2; //Nombre de antigenes en solution
+	int Ng=20; //Nombre de antigenes en solution
 	int Nb=200; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
@@ -282,7 +283,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	}
 	for (int j=0;j<Nb;j++)
 	{
-		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.01,bleu);
+		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.02,bleu);
 	}
 	/* Mettre a jour l'affichage */
 	SDL_RenderPresent(rendeur1);
