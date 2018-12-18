@@ -26,14 +26,16 @@ ffmpeg -f image2 -pattern_type glob -framerate 100 -i 'image*.bmp' film.avi */
 #ifdef AFFICHAGE
 using namespace std;
 const unsigned largeur_de_l_affichage=480, hauteur_de_l_affichage=480;
-Uint8 couleur[4]={ 255, 255,   0, 255 };
+Uint8 couleur[4]={ 255, 255,   0, 255};
 const Uint8 couleurs[][4]=
   {
     { 0,     0, 255, 255 }, /* bleu */
     { 255, 255,   0, 255 }, /* jaune */
     { 0,     0,   0, 255 }, /* noir */
+    { 0,   255,   0, 255 }, /* vert*/
+    { 55,  200,   0, 255 } /* presque vert */
   };
-const int bleu= 0, jaune= 1, noir= 2;
+const int bleu= 0, jaune= 1, noir= 2, vert=3, pvert=4;
 SDL_Window * fenetre1;
 SDL_Renderer * rendeur1;
 static void trace_antigene(float x, float y, float rayon, int numero_de_couleur)
@@ -185,12 +187,12 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	double M=6.02*pow(10,23)*m;//masse molaire
 	double xc=pow(10,-7); //Longueur pour adimensionnement telque Br~1 pour tc
 	double l=1.8*pow(10,-10); // amortissement lambda
-  double Fr=0.00000066; //ecart type de la force random
+  double Fr=0.000006; //ecart type de la force random
   //double Fr=0.00000016; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
-	int Ng=20; //Nombre de antigenes en solution
-	int Nb=200; //Nombre d'anticorps en solution
+	int Ng=60; //Nombre de antigenes en solution
+	int Nb=140; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
 	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
@@ -253,7 +255,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
   //On va ecrire dans le fichier
   //par colonne : xi ,yi ,vxi ,vyi ,Nb antigene lies ,temps réel (T*tc)
 
- for (int i = 0; i < Ng; i++) {
+/* for (int i = 0; i < Ng; i++) {
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getxposition())*xc);
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getyposition())*xc);
     write_in(numero_du_fichier, modele_nom_fichier, (tabg[i]->getxspeed())*xc/tc);
@@ -265,7 +267,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
   write_in(numero_du_fichier, modele_nom_fichier, Nbp);
   write_in(numero_du_fichier, modele_nom_fichier, T*tc);
   write_endl(numero_du_fichier, modele_nom_fichier);
-
+*/
 
   T+=1;
 	Nba=Nbp;
@@ -277,10 +279,27 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	#ifdef AFFICHAGE
 	for (int i = 0; i < Ng; i++)
 	{
-    //couleur[0]= i;
-    couleur[1]= i;
-		trace_antigenevolv(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,couleur);
-	}
+
+    if (tabg[i]->getstate()==true) {
+      if ((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc)))>0.01) {
+        trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,pvert);
+      }
+
+      else{
+
+      couleur[0]= 255 - 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.01;
+      couleur[1]= 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.01;
+		  trace_antigenevolv(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,couleur);
+      }
+
+   }
+
+  else  {
+
+    trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,vert);
+
+  }
+}
 	for (int j=0;j<Nb;j++)
 	{
 		trace_antigene(tabb[j]->getxposition(),tabb[j]->getyposition(),0.02,bleu);
