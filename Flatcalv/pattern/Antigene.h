@@ -14,6 +14,7 @@ class Antigene
 	void changestate();
 	void notifyzones();
 	void incrementtimeinzone();
+	void pull_out();
 	bool getstate() const;
 	bool getzones() const;
 	int gettimeinzone() const;

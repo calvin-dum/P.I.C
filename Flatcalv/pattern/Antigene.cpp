@@ -52,6 +52,13 @@ void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab
 	 }
 }
 
+void Antigene::pull_out()
+{
+
+	m_yposition=0.9;
+
+}
+
 bool Antigene::getstate() const //accede à l'état true=libre false=lié
 {
 	return m_state;
