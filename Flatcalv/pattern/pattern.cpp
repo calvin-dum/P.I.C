@@ -195,8 +195,10 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
 	int Ng=60; //Nombre de antigenes en solution
 	int Nb=140; //Nombre d'anticorps en solution
-	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
-	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
+	//int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
+  int T=0;
+  int target_sat=40;
+  double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
 
   normal_distribution<double> d{0,Br};
 
@@ -204,13 +206,17 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 
   for (int j = 0; j < runs; j++) {
     int fin_demandee= 0;
+    int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
     int T=0; //Nombre servant à avoir le temps
 
-	Antigene *tabg[Ng];
-	for(int i=0; i<Ng; i++)
+	Antigene *tabg[Ng+target_sat];
+	for(int i=0; i<Ng+target_sat; i++)
 	{
-		tabg[i]=new Antigene(); //creer un tableau contenant Ng adresses d'antigene
+		tabg[i]=new Antigene(); //creer un tableau contenant Ng adresses d'antigenes
 	}
+  for (int i = Ng; i <Ng + target_sat; i++) {
+    tabg[i]->pull_out(); //Met les antigenes inutiles dans le reservoir
+  }
 	Antibody *tabb[Nb];
 	for(int j=0;j<Nb; j++)
 	{
@@ -235,6 +241,13 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
           tabg[i]->notifyzones();
           tabg[i]->incrementtimeinzone();
 					tabg[i]->bind(tabb[j],M,dG,T,probabt,tc,prefact);
+          if (tabg[i]->getstate()==false)
+            {
+              Nba++;
+              *tabg[Ng+Nba-1]=*tabg[i];
+              tabg[i]=new Antigene();
+
+            }
 				}
 				if (tabg[i]->getstate()==true)
 				{
@@ -247,8 +260,8 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 			}
 		}
 	}
-	int Nbp=0;// pour compter les anticorps libres
-/*On va tracer Nb lié(t)*/
+	/*int Nbp=0;// pour compter les anticorps libres
+//On va tracer Nb lié(t)
 	for (int j=0;j<Nb;j++)
 	{
 		if ((tabb[j]->getstate())==false)
@@ -256,7 +269,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 			Nbp+=1;
 		}
 	}
-
+*/
   //On va ecrire dans le fichier
   //par colonne : xi ,yi ,vxi ,vyi ,Nb antigene lies ,temps réel (T*tc)
 
@@ -274,18 +287,18 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 
 
   T+=1;
-	Nba=Nbp;
-  if ((float) Nba>40) {
+  if ((float) Nba>target_sat-1) {
     fin_demandee=1;
+    std::cout << "FIN DEMANDEE" << '\n';
     write_in(numero_du_fichier, modele_nom_fichier, j);
-    write_in(numero_du_fichier, modele_nom_fichier, Nbp);
+    write_in(numero_du_fichier, modele_nom_fichier, Nba);
     write_in(numero_du_fichier, modele_nom_fichier, T);
     write_endl(numero_du_fichier, modele_nom_fichier);
   }
 
 
 	#ifdef AFFICHAGE
-	for (int i = 0; i < Ng; i++)
+	for (int i = 0; i < Ng+target_sat; i++)
 	{
 
     if (tabg[i]->getstate()==true) {
