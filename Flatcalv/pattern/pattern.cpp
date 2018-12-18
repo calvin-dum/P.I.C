@@ -130,7 +130,7 @@ void write_endl(int& numero_du_fichier, const char* modele_nom_fichier)
 
 int main(int argc, char* argv[])
 {
-	int fin_demandee= 0;
+	//int fin_demandee= 0;
 	#ifdef AFFICHAGE
 	SDL_Event evenement;
 /* Initialiser la bibliotheque SDL2 */
@@ -180,6 +180,8 @@ int main(int argc, char* argv[])
 /* int numero_du_fichier= 1;
 int numero_d_image= 0;
 char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
+
+  int runs = 3;
   double prefact=1.0; //prefacteur devant fonction erfc dans probabt
   double probabt=1e-9;
 	double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
@@ -194,12 +196,15 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	int Ng=60; //Nombre de antigenes en solution
 	int Nb=140; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
-	int T=0; //Nombre servant à avoir le temps
 	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
 
   normal_distribution<double> d{0,Br};
 
 	srand (time(NULL));//seed la fonction random sur le temps
+
+  for (int j = 0; j < runs; j++) {
+    int fin_demandee= 0;
+    int T=0; //Nombre servant à avoir le temps
 
 	Antigene *tabg[Ng];
 	for(int i=0; i<Ng; i++)
@@ -264,15 +269,18 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 
 
   }
-  write_in(numero_du_fichier, modele_nom_fichier, Nbp);
-  write_in(numero_du_fichier, modele_nom_fichier, T*tc);
-  write_endl(numero_du_fichier, modele_nom_fichier);
-*/
+  */
+
+
 
   T+=1;
 	Nba=Nbp;
-  if ((float) Nba/Nb>0.4) {
+  if ((float) Nba>40) {
     fin_demandee=1;
+    write_in(numero_du_fichier, modele_nom_fichier, j);
+    write_in(numero_du_fichier, modele_nom_fichier, Nbp);
+    write_in(numero_du_fichier, modele_nom_fichier, T);
+    write_endl(numero_du_fichier, modele_nom_fichier);
   }
 
 
@@ -318,6 +326,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 			fputs(SDL_GetError(), stderr);
 		SDL_FreeSurface(s);
 	}*/
+}
 	if (SDL_PollEvent(&evenement))
 
 		switch (evenement.type)
@@ -332,4 +341,5 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	SDL_Quit();
 	#endif
 	return 0;
+
 }
