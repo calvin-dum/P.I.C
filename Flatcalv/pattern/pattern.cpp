@@ -196,7 +196,8 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	int Ng=60; //Nombre de antigenes en solution
 	int Nb=140; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
-	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
+  int T=0;
+  double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
 
   normal_distribution<double> d{0,Br};
 
