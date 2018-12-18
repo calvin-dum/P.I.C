@@ -1,0 +1,267 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	3
+<table>
+stat	10	7	12/16/18 4:18 PM
+geometry	43	0	998	293	active
+header	tm[Y]	terror[Y]	Fr[Y]	1/tm[Y]	terror/tm²[Y]	linéaire?[Y]	1/Fr[X]
+ColWidth	229	178	170	100	100	150	100	
+<com>
+<col nr="3">
+1/col("tm")
+</col>
+<col nr="4">
+col("terror")*col("1/tm")*col("1/tm")
+</col>
+<col nr="6">
+1/col("Fr")
+</col>
+</com>
+ColType	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0	0	0	0	0
+HiddenColumn	0	0	0	0	0	0	0
+Comments								
+WindowLabel	/home/semmer/Bureau/sbcp/projet_num/flatcal/code_source/3D/data_analysis/t(Fr)/stat.txt	2
+<data>
+0	4.53093e-10	1.15862864202e-10	0.000515625	2207052415.288	564377322.7113	2207052415.288	1939.393939394
+1	4.247911e-08	6.90489706563e-09	6.44531e-05	23540982.85016	3826541.172923	23540982.85016	15515.15753315
+2	1.0612378e-08	2.09776888609e-09	0.000128906	94229587.37429	18626541.24673	94229587.37429	7757.5908026
+3	1.11666e-10	3.12053239688e-11	0.00103125	8955277344.939	2502573126.818	8955277344.939	969.696969697
+4	3.5771e-11	4.79946340751e-12	0.004125	27955606496.88	3750857130.539		242.4242424242
+5	5.0837e-11	1.07849024567e-11	0.0020625	19670712276.49	4173076954.89		484.8484848485
+6	3.7968e-11	3.50093644615e-12	0.0165	26337968815.84	2428559706.725		60.60606060606
+7	6.5813e-11	4.9959584666e-12	0.033	15194566423.05	1153441155.51		30.30303030303
+8	3.7588e-11	4.11150045604e-12	0.00825	26604235394.27	2910059751.945		121.2121212121
+9	2.069464e-09	4.64016348165e-10	0.000257812	483216910.2724	108347159.4945	483216910.2724	3878.7954013
+</data>
+</table>
+<multiLayer>
+Graphe1	1	1	12/16/18 4:42 PM
+geometry	0	644	587	467	minimized	
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	5	5	569	404
+<PageGeometry>0.00863558	0.0119332	0.982729	0.9642</PageGeometry>
+PlotTitle	Titre	#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	%(?X)	%(?Y)		%(?Y)	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	13	75	0	0	0
+ScaleFont0	Ubuntu	11	75	0	0	0
+ScaleFont1	Ubuntu	11	75	0	0	0
+ScaleFont2	Ubuntu	11	75	0	0	0
+ScaleFont3	Ubuntu	11	75	0	0	0
+AxisFont0	Ubuntu	11	50	0	0	0
+AxisFont1	Ubuntu	11	50	0	0	0
+AxisFont2	Ubuntu	11	50	0	0	0
+AxisFont3	Ubuntu	11	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#3c3c3c	#3c3c3c	#3c3c3c	#3c3c3c
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	stat_Fr	stat_linéaire?	1	0	#000000	0	1	7	1	#000000	#000000	0	#000000	14	1	2	0	0	9	1
+ErrorBars	1	stat_Fr	stat_linéaire?	stat_terror/tm²	1	8	#000000	1	1	1	0
+scale	0	-2000000000	12000000000	0	8	5	0	0
+scale	1	-2000000000	12000000000	0	8	5	0	0
+scale	2	0	0.0012	0	7	5	0	0
+scale	3	0	0.0012	0	7	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>3.0075187969925e-05</x>
+<y>9598662207.3579</y>
+<right>0.00032781954887218</right>
+<bottom>8434782608.69565</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+</Text>
+<Font>Ubuntu	11	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<multiLayer>
+Graphe2	2	1	12/16/18 4:54 PM
+geometry	196	644	1288	667	minimized	
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	374	270
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	2	-6	1254	651
+<PageGeometry>0.0015528	-0.00927357	0.973602	1.00618</PageGeometry>
+PlotTitle	boîte de 10um*10um*1um avec 60 antigènes 140 anticorps	#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#ff0000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	Fr  de 0.033 à 0.000033 N 	inverse du temps 40% (1/s)		 	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	20	75	0	0	0
+ScaleFont0	Ubuntu	17	75	0	0	0
+ScaleFont1	Ubuntu	17	75	0	0	0
+ScaleFont2	Ubuntu	17	75	0	0	0
+ScaleFont3	Ubuntu	17	75	0	0	0
+AxisFont0	Ubuntu	17	50	0	0	0
+AxisFont1	Ubuntu	17	50	0	0	0
+AxisFont2	Ubuntu	17	50	0	0	0
+AxisFont3	Ubuntu	17	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#3c3c3c	#3c3c3c	#3c3c3c	#3c3c3c
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	stat_Fr	stat_1/tm	1	0	#000000	0	1	7	1	#0000a0	#0000a0	0	#000000	14	1	2	0	0	9	1
+ErrorBars	1	stat_Fr	stat_1/tm	stat_terror/tm²	1	8	#ff0000	1	1	1	0
+scale	0	-5000000000	35000000000	0	9	5	0	0
+scale	1	-5000000000	35000000000	0	9	5	0	0
+scale	2	-0.005	0.035	0	9	5	0	0
+scale	3	-0.005	0.035	0	9	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>0.021466165413534</x>
+<y>33394648829.431</y>
+<right>0.0318922305764411</right>
+<bottom>29648829431.4381</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>0</visible>
+<Text>
+\l(1)%(1)
+</Text>
+<Font>Ubuntu	17	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<graph>
+ggeometry	408	240	466	359
+<PageGeometry>0.31677	0.370943	0.361801	0.554869</PageGeometry>
+PlotTitle	zoom sur les plus petites valeurs de Fr	#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	0	1	0	
+AxesTitles	<br>	 		%(?Y)	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	4	5124	4
+AxesTitleDistance	2	-1	2	-1
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	13	75	0	0	0
+ScaleFont0	Ubuntu	11	75	0	0	0
+ScaleFont1	Ubuntu	11	75	0	0	0
+ScaleFont2	Ubuntu	11	75	0	0	0
+ScaleFont3	Ubuntu	11	75	0	0	0
+AxisFont0	Ubuntu	11	50	0	0	0
+AxisFont1	Ubuntu	11	50	0	0	0
+AxisFont2	Ubuntu	11	50	0	0	0
+AxisFont3	Ubuntu	11	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#3c3c3c	#3c3c3c	#3c3c3c	#3c3c3c
+AxesBaseline	0	0	0	0	
+CanvasFrame	1	#000000
+CanvasBackground	#ffffff	0
+curve	stat_Fr	stat_linéaire?	1	0	#000000	0	1	7	1	#0000a0	#000000	0	#000000	14	1	2	0	0	9	1
+ErrorBars	1	stat_Fr	stat_linéaire?	stat_terror/tm²	1	8	#000000	1	1	1	0
+scale	0	-100000000	10000000000	0	3	0	0	0
+scale	1	-100000000	10000000000	0	3	0	0	0
+scale	2	0	0.0012	0	7	0	0	0
+scale	3	0	0.0012	0	7	0	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<open>1</open>

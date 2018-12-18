@@ -1,0 +1,142 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	3
+<table>
+Table1	30	2	12/14/18 12:28 PM
+geometry	0	63	445	220	
+header	1[X]	2[Y]
+ColWidth	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13
+ReadOnlyColumn	0	0
+HiddenColumn	0	0
+Comments			
+WindowLabel		2
+<data>
+</data>
+</table>
+<table>
+statrelat	14	5	12/14/18 12:32 PM
+geometry	0	283	1140	220	
+header	1[Y]	2[Y]	Nb/Ng[X]	tm[Y]	terror[Y]
+ColWidth	100	100	100	100	100	
+<com>
+<col nr="3">
+col("1")*1e15
+</col>
+<col nr="4">
+col("2")*1e15
+</col>
+</com>
+ColType	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0	0	0
+HiddenColumn	0	0	0	0	0
+Comments						
+WindowLabel	/home/semmer/Bureau/sbcp/projet_num/flatcal/code_source/3D/data_analysis/Resultats/statrelat.txt	2
+<data>
+0	4.8055e-10	1.1807358426e-10	1.5	480550	118073.58426
+1	3.05945e-10	7.54924929049e-11	1.16666666667	305945	75492.4929049
+2	2.35239e-10	6.88965102817e-11	1	235239	68896.5102817
+3	7.72376e-10	1.1284706192e-10	2	772376	112847.06192
+4	7.804e-11	3.23100402352e-11	0.333333333333	78040	32310.0402352
+5	1.3478e-10	4.91587591381e-11	0.666666666667	134780	49158.7591381
+6	8.77e-11	1.9594450745e-11	0.166666666667	87700	19594.450745
+7	6.61994e-10	1.01111217202e-10	1.83333333333	661994	101111.217202
+8	1.402369e-09	2.82293550279e-10	2.33333333333	1402369	282293.550279
+9	8.9211e-11	3.32107902496e-11	0.5	89211	33210.7902496
+10	5.41315e-10	1.43571052601e-10	1.66666666667	541315	143571.052601
+11	1.062697e-09	1.58447289472e-10	2.16666666667	1062697	158447.289472
+12	1.59123e-10	5.56848726406e-11	0.833333333333	159123	55684.8726406
+13	3.40247e-10	8.10321536243e-11	1.33333333333	340247	81032.1536243
+</data>
+</table>
+<multiLayer>
+Graphe1	1	1	12/14/18 12:34 PM
+geometry	313	0	595	467	active
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	5	5	577	404
+<PageGeometry>0.00851789	0.0119332	0.982964	0.9642</PageGeometry>
+PlotTitle	durée moyenne d'occupation de 40% des anticorps en fonction de Nb/Ng	#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	Nb/Ng	temps adim		temps adim	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	13	75	0	0	0
+ScaleFont0	Ubuntu	11	75	0	0	0
+ScaleFont1	Ubuntu	11	75	0	0	0
+ScaleFont2	Ubuntu	11	75	0	0	0
+ScaleFont3	Ubuntu	11	75	0	0	0
+AxisFont0	Ubuntu	11	50	0	0	0
+AxisFont1	Ubuntu	11	50	0	0	0
+AxisFont2	Ubuntu	11	50	0	0	0
+AxisFont3	Ubuntu	11	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#3c3c3c	#3c3c3c	#3c3c3c	#3c3c3c
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	statrelat_Nb/Ng	statrelat_tm	1	0	#000000	0	1	7	1	#000000	#000000	0	#000000	14	1	2	0	0	13	1
+ErrorBars	1	statrelat_Nb/Ng	statrelat_tm	statrelat_terror	1	8	#000000	1	1	1	0
+scale	0	0	2000000	0	5	5	0	0
+scale	1	0	2000000	0	5	5	0	0
+scale	2	0	2.5	0	6	5	0	0
+scale	3	0	2.5	0	6	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>0.06265664160401</x>
+<y>1546488.2943144</y>
+<right>0.682957393483709</right>
+<bottom>1391304.34782609</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(1)%(1)
+</Text>
+<Font>Ubuntu	11	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<open>1</open>
