@@ -206,6 +206,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 
   for (int j = 0; j < runs; j++) {
     int fin_demandee= 0;
+    int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
     int T=0; //Nombre servant à avoir le temps
 
 	Antigene *tabg[Ng+target_sat];
@@ -243,7 +244,8 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
           if (tabg[i]->getstate()==false)
             {
               Nba++;
-              tabg[Ng+Nba-1]=tabg[i];
+              *tabg[Ng+Nba-1]=*tabg[i];
+              tabg[i]=new Antigene();
 
             }
 				}
@@ -285,8 +287,9 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 
 
   T+=1;
-  if ((float) Nba>target_sat) {
+  if ((float) Nba>target_sat-1) {
     fin_demandee=1;
+    std::cout << "FIN DEMANDEE" << '\n';
     write_in(numero_du_fichier, modele_nom_fichier, j);
     write_in(numero_du_fichier, modele_nom_fichier, Nba);
     write_in(numero_du_fichier, modele_nom_fichier, T);
