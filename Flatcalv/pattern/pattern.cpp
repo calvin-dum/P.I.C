@@ -271,7 +271,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 
   T+=1;
 	Nba=Nbp;
-  if (Nba==Ng) {
+  if ((float) Nba/Nb>0.4) {
     fin_demandee=1;
   }
 
@@ -281,14 +281,14 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	{
 
     if (tabg[i]->getstate()==true) {
-      if ((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc)))>0.01) {
+      if ((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc)))>0.05) {
         trace_antigene(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,pvert);
       }
 
       else{
 
-      couleur[0]= 255 - 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.01;
-      couleur[1]= 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.01;
+      couleur[0]= 255 - 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.05;
+      couleur[1]= 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.05;
 		  trace_antigenevolv(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,couleur);
       }
 

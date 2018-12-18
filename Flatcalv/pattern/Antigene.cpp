@@ -24,7 +24,7 @@ Antigene::Antigene() //constructeur
 	m_kinetic=0;
 	in_zones=0;
 	time_in_zone=1;
-}
+	}
 
 void Antigene::bind(Antibody *cible, double M,double dG, double T, double probabt, double tc, double prefact) //méthode testant si un anticorps dispo est dans le rayon de antigene et alors change l'etat des deux en false
 {
@@ -93,13 +93,13 @@ void Antigene::changestate() //lie un antigene
 
 void Antigene::notifyzones() //modifie le booleen pour indiquer la zone
 {
-	if (m_yposition<0.5)//m_radius)
+	if (m_yposition<m_radius)
 	{
 			if (! in_zones) {
 				in_zones=true;
 			}
 	}
-	if (m_yposition>0.7)//2*m_radius)
+	if (m_yposition>m_radius)
 	{
 		if (in_zones) {
 			in_zones=false;
