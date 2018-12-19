@@ -39,7 +39,7 @@ void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab
 			if ( (pow(xcible-m_xposition,2)+pow(m_yposition,2)+pow(zcible-m_zposition,2))< pow(m_radius,2)) //on regarde si l'anticorps est dans la zone effet, longueur au carré
 			{
 				double p=uniform(0.0,1.0);
-				if(p<(double) prefact*erfcl(sqrt((double)probabt/(time_in_zone*tc))))
+				if(p<(double) prefact*erfcl(sqrt((double)probabt/(time_in_zone))))
 				{
 					changestate();
 					cible->changestate(); // on lie les deux
@@ -135,11 +135,11 @@ void Antigene::incrementtimeinzone()
 	if (in_zones) {
 		time_in_zone++;
 	}
-//	else
-//	{
-//		time_in_zone=1;
+	else
+	{
+		time_in_zone=1;
 
-//	}
+	}
 
 }
 

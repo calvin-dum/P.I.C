@@ -155,18 +155,18 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	define_name(modele_nom_fichier, numero_du_fichier);
 /*On définit les paramètres du problème*/
 
-  	double prefact=1.0; //prefacteur devant fonction erfc dans probabt
-  	double probabt=pow(10,-9);//correspond au temps moyen d'interraction entre antigene/corps avant liaisaion
-	double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
+  double prefact=1.0; //prefacteur devant fonction erfc dans probabt
+  double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
+  double probabt=pow(10,-12)/tc;//correspond au temps moyen d'interraction entre antigene/corps avant liaisaion
 	double m=3.18*pow(10,-23); //masse de la molecule
 	double M=6.02*pow(10,23)*m;//masse molaire
 	double xc=pow(10,-6); //Longueur pour adimensionnement telque Br~1 pour tc
 	double l=1.8*pow(10,-10); // amortissement lambda
-	double Fr=0.0008; //ecart type de la force random
+	double Fr=0.00002; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
 	int Ng=60; //Nombre de antigenes en solution
-	int Nb=2000; //Nombre d'anticorps en solution
+	int Nb=200; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
   int target_sat=40;
@@ -207,9 +207,8 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 			if (tabg[i]->getyposition()<tabg[i]->getradius())
 			{
 				for (int j=0;j<Nb;j++)
-				{
+				{tabg[i]->incrementtimeinzone();
 
-          //tabg[i]->incrementtimeinzone();
 
 					tabg[i]->bind(tabb[j],M,dG,T,probabt,tc,prefact);
 					if (tabg[i]->getstate()==false)
