@@ -162,7 +162,7 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	double M=6.02*pow(10,23)*m;//masse molaire
 	double xc=pow(10,-6); //Longueur pour adimensionnement telque Br~1 pour tc
 	double l=1.8*pow(10,-10); // amortissement lambda
-	double Fr=0.00008; //ecart type de la force random
+	double Fr=0.0008; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
 	int Ng=60; //Nombre de antigenes en solution
@@ -202,12 +202,15 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	{
 		if (tabg[i]->getstate()==true) //la flèche permet d'appliquer une méthode à l'objet situé à l'adresse à gauche de la flèche
 		{
+      tabg[i]->notifyzones();
+      tabg[i]->incrementtimeinzone();
 			if (tabg[i]->getyposition()<tabg[i]->getradius())
 			{
 				for (int j=0;j<Nb;j++)
 				{
-					tabg[i]->notifyzones();
-					tabg[i]->incrementtimeinzone();
+
+          //tabg[i]->incrementtimeinzone();
+
 					tabg[i]->bind(tabb[j],M,dG,T,probabt,tc,prefact);
 					if (tabg[i]->getstate()==false)
 					{
@@ -238,7 +241,7 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	{
 		if (tabg[i]->getstate()==true)
 		{
-			if (tabg[i]->getzones())
+			if (tabg[i]->getzones()==true)
 			{
 				trace_antigene1(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,jaune);
 			}
