@@ -162,11 +162,11 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	double M=6.02*pow(10,23)*m;//masse molaire
 	double xc=pow(10,-6); //Longueur pour adimensionnement telque Br~1 pour tc
 	double l=1.8*pow(10,-10); // amortissement lambda
-	double Fr=0.000066; //ecart type de la force random
+	double Fr=0.00008; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
 	int Ng=60; //Nombre de antigenes en solution
-	int Nb=100; //Nombre d'anticorps en solution
+	int Nb=2000; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
   int target_sat=40;
@@ -264,11 +264,11 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	{
 		if (tabb[j]->getstate()==true)
 		{
-			trace_antigene2(tabb[j]->getxposition(),tabb[j]->getzposition()/100,0.01,bleu);
+			trace_antigene2(tabb[j]->getxposition()/10,tabb[j]->getzposition()/100,0.01,bleu);
 		}
 		else
 		{
-			trace_antigene2(tabb[j]->getxposition(),tabb[j]->getzposition()/100,0.01,vert);
+			trace_antigene2(tabb[j]->getxposition()/10,tabb[j]->getzposition()/100,0.01,vert);
 		}
 	}
 	/* Mettre a jour l'affichage */

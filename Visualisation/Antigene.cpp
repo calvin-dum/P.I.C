@@ -118,11 +118,12 @@ void Antigene::notifyzones() //modifie le booleen pour indiquer la zone
 				in_zones=true;
 			}
 	}
-	if (m_yposition>1.1*m_radius)
+	//if (m_yposition>1.1*m_radius)
+	else
 	{
-		if (in_zones) {
+		//if (in_zones) {
 			in_zones=false;
-		}
+		//}
 
 	}
 
