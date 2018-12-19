@@ -55,4 +55,3 @@ double Antibody::getenergy() //retourne l'energie de liaison
 {
 	return m_binding;
 }
-
