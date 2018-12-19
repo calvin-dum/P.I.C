@@ -1,0 +1,186 @@
+QtiPlot 0.9.8 project file
+<scripting-lang>	muParser
+<windows>	3
+<table>
+Table1	30	2	12/19/18 4:48 PM
+geometry	0	0	445	220	
+header	1[X]	2[Y]
+ColWidth	100	100	
+<com>
+</com>
+ColType	0;0/13	0;0/13
+ReadOnlyColumn	0	0
+HiddenColumn	0	0
+Comments			
+WindowLabel		2
+<data>
+</data>
+</table>
+<table>
+stat	7	6	12/19/18 4:48 PM
+geometry	445	0	678	220	
+header	tm[Y]	terror[Y]	Fr[Y]	ln(tm)[Y]	terror/tm[Y]	ln(Fr)[X]
+ColWidth	100	100	100	100	100	100	
+<com>
+<col nr="3">
+ln(col("tm"))
+</col>
+<col nr="4">
+col("terror")/col("tm")
+</col>
+<col nr="5">
+ln(col("Fr"))
+</col>
+</com>
+ColType	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13	0;0/13
+ReadOnlyColumn	0	0	0	0	0	0
+HiddenColumn	0	0	0	0	0	0
+Comments							
+WindowLabel	/home/semmer/Bureau/CalvinDumesnil_FlorianSemmer_Piegeage_antigene/Exploitation/t_Fr/stat.txt	2
+<data>
+0	110991.9	11328.8715806	0.0033	11.61721250466	0.1020693544358	-5.71383281051
+1	88412.3	10236.9329298	0.00165	11.38976637922	0.1157862981712	-6.40697999107
+2	103495.6	8739.33376408	0.000825	11.54728437871	0.08444159717012	-7.10012717163
+3	198422.3	27334.4189294	0.0004125	12.19815286671	0.1377588049801	-7.79327435219
+4	498340.4	78530.6370663	0.00020625	13.11903865664	0.1575843280342	-8.486421532749
+5	1549944	146272.06652	0.000103125	14.25372935921	0.09437248476074	-9.179568713309
+6	5578722	1169436.49674	5.15625e-05	15.53447027587	0.2096244438673	-9.872715893869
+</data>
+</table>
+<multiLayer>
+Graphe2	1	1	12/19/18 4:52 PM
+geometry	207	34	779	467	active
+WindowLabel		2
+Margins	5	5	5	5
+Spacing	5	5
+LayerCanvasSize	400	300
+Alignement	0	0
+<AlignPolicy>0</AlignPolicy>
+<CommonAxes>0</CommonAxes>
+<graph>
+ggeometry	-1	15	761	404
+<PageGeometry>-0.00129702	0.0357995	0.98703	0.9642</PageGeometry>
+PlotTitle	Influence de la force sur le temps d'appariement	#000000	4228
+<Antialiasing>0</Antialiasing>
+<Autoscaling>1</Autoscaling>
+<ScaleFonts>1</ScaleFonts>
+<GridOnTop>0</GridOnTop>
+<MissingDataGap>1</MissingDataGap>
+Background	#ffffff	0
+Margin	0
+Border	0	#000000
+grid	0	0	0	0	#0000ff	0	0.5	#a0a0a4	2	0.4	#0000ff	0	0.5	#a0a0a4	2	0.4	0	0	2	0	0
+EnabledAxes	1	1	1	1	
+AxesTitles	ln(Fr)	ln(t)		 	
+AxesTitleColors	#000000	#000000	#000000	#000000	
+AxesTitleAlignment	5124	5124	5124	5124
+AxesTitleDistance	2	2	2	2
+InvertedTitle	0	0	0	0
+TitleFont	Ubuntu	13	75	0	0	0
+ScaleFont0	Ubuntu	11	75	0	0	0
+ScaleFont1	Ubuntu	11	75	0	0	0
+ScaleFont2	Ubuntu	11	75	0	0	0
+ScaleFont3	Ubuntu	11	75	0	0	0
+AxisFont0	Ubuntu	11	50	0	0	0
+AxisFont1	Ubuntu	11	50	0	0	0
+AxisFont2	Ubuntu	11	50	0	0	0
+AxisFont3	Ubuntu	11	50	0	0	0
+AxesColors	#000000	#000000	#000000	#000000
+AxesNumberColors	#3c3c3c	#3c3c3c	#3c3c3c	#3c3c3c
+AxesBaseline	0	0	0	0	
+CanvasBackground	#ffffff	0
+curve	stat_ln(Fr)	stat_ln(tm)	1	0	#000000	0	1	7	1	#000000	#000000	0	#000000	14	1	2	0	2	6	1
+curve	stat_ln(Fr)	stat_ln(tm)	1	0	#ff0000	0	1	7	2	#ff0000	#ff0000	0	#000000	14	1	2	0	0	6	1
+ErrorBars	1	stat_ln(Fr)	stat_ln(tm)	stat_terror/tm	1	8	#000000	1	1	1	0
+<Function>
+<Type>0</Type>
+<Title>Non-linéaireAjustement1</Title>
+<Expression>A*x+B</Expression>
+<Variable>x</Variable>
+<Range>-9.872715893869	-7.10012717163</Range>
+<Points>100</Points>
+<Constant>A	-1.46833589073646</Constant>
+<Constant>B	0.883219263942812</Constant>
+<Style>0</Style>
+<LineStyle>1</LineStyle>
+<Pen>
+	<Color>#000000</Color>
+	<Style>0</Style>
+	<Width>1</Width>
+</Pen>
+<xAxis>2</xAxis>
+<yAxis>0</yAxis>
+<CurveType>0</CurveType>
+<Visible>1</Visible>
+</Function>
+scale	0	11	16	0	6	5	0	0
+scale	1	11	16	0	6	5	0	0
+scale	2	-10	-5	0	6	5	0	0
+scale	3	-10	-5	0	6	5	0	0
+LabelsFormat	0	6	0	6	0	6	0	6
+AxisType	0	0	0	0	
+MajorTicks	1	1	1	1
+MinorTicks	1	1	1	1
+TicksLength	5	9
+DrawAxesBackbone	1	1	1	1	1
+AxesLineWidth	1
+LabelsRotation	0	0	0	0
+LabelsPrefix				
+LabelsSuffix				
+TickLabelsSpace	4	4	4	4
+ShowTicksPolicy	0	0	0	0
+EnabledTickLabels	1	1	1	1
+<Legend>
+<Frame>1</Frame>
+<Color>#000000</Color>
+<FrameWidth>1</FrameWidth>
+<LineStyle>0</LineStyle>
+<x>-8.2094081942337</x>
+<y>15.816053511706</y>
+<right>-5.28072837632777</right>
+<bottom>13.3578595317726</bottom>
+<attachTo>1</attachTo>
+<onTop>1</onTop>
+<visible>1</visible>
+<Text>
+\l(2)%(2)
+\l(4)%(4)
+<b>Données</b>: stat_ln(tm)
+<b>Fonction</b>: A*x+B
+<b>Chi^2/doF</b> = 5,7950100830111e-03
+<b>R^2</b> = 0,9872138506305
+<b>A</b> = -1,4683358907365e+00 +/- 9,7740715541660e-02
+<b>B</b> = 8,8321926394281e-01 +/- 8,5026737780363e-01
+</Text>
+<Font>Ubuntu	11	50	0	0	0</Font>
+<TextColor>#000000</TextColor>
+<Background>#ffffff</Background>
+<Alpha>0</Alpha>
+<Angle>0</Angle>
+<AutoUpdate>1</AutoUpdate>
+<TeXOutput>0</TeXOutput>
+</Legend>
+</graph>
+<LinkXAxes>0</LinkXAxes>
+<ScaleLayers>1</ScaleLayers>
+</multiLayer>
+<open>1</open>
+<log>
+[12/19/18 4:56 PM	Graphe: ''Graphe2'']
+Ajustement non-linéaire de données: stat_ln(tm), utilisant la fonction: A*x+B
+Méthode de pondération: Pondération à partir des données: stat_terror/tm
+Levenberg-Marquardt Normalisé algorithme avec une tolérence de 0,0001
+De x  = -7,1001271716300e+00 à x  = -9,8727158938690e+00
+A = -1,4683358907365e+00 +/- 9,7740715541660e-02
+B = 8,8321926394281e-01 +/- 8,5026737780363e-01
+--------------------------------------------------------------------------------------
+Chi^2/doF = 5,7950100830111e-03
+R^2 = 0,9872138506305
+Coefficient R^2 ajusté = 0,9744277012609
+RMSE (La racine carrée moyenne des carrés des erreurs) = 0,07612496359941
+RSS (Restes de la somme des carrés) = 0,01738503024903
+---------------------------------------------------------------------------------------
+Nombre d'itérations = 2
+État = cannot reach the specified tolerance in F
+---------------------------------------------------------------------------------------
+</log>
