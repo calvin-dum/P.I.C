@@ -13,6 +13,7 @@ class Antigene
 	void motion(double A,double Br);
 	void changestate();
 	void notifyzones();
+	void pull_out();
 	void incrementtimeinzone();
 	bool getstate() const;
 	bool getzones() const;

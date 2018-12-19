@@ -26,14 +26,17 @@ ffmpeg -f image2 -pattern_type glob -framerate 100 -i 'image*.bmp' film.avi */
 #ifdef AFFICHAGE
 using namespace std;
 const unsigned largeur_de_l_affichage=480, hauteur_de_l_affichage=480;
+Uint8 couleur[4]={ 255, 255,   0, 255};
 const Uint8 couleurs[][4]=
   {
     { 0,     0, 255, 255 }, /* bleu */
     { 255, 255,   0, 255 }, /* jaune */
     { 0,     0,   0, 255 },/* noir */
-    {255,128,0,255},/*orange*/ 
+    {255,128,0,255},/*orange*/
+    { 0,   255,   0, 255 }, /* vert*/
+    { 55,  200,   0, 255 }, /* presque vert */
   };
-const int bleu= 0, jaune= 1, noir= 2, orange=3;
+const int bleu= 0, jaune= 1, noir= 2, orange=3, vert=4, pvert=5;
 SDL_Window * fenetre1;
 SDL_Renderer * rendeur1;
 SDL_Window * fenetre2;
@@ -61,6 +64,19 @@ static void trace_antigene2(float x, float y, float rayon, int numero_de_couleur
 	             (int)(rayon * hauteur_de_l_affichage)};
 	SDL_RenderDrawRect(rendeur2, &r);
 }
+
+static void trace_antigenevolv(float x, float y, float rayon, Uint8 couleur[4])
+{
+	SDL_SetRenderDrawColor(rendeur1, couleur[0],
+	couleur[1], couleur[2],
+	couleur[3]);
+	SDL_Rect r= {(int)((x-rayon/2) * largeur_de_l_affichage),
+	             (int)((y-rayon/2) * hauteur_de_l_affichage),
+	             (int)(rayon * largeur_de_l_affichage),
+	             (int)(rayon * hauteur_de_l_affichage)};
+	SDL_RenderDrawRect(rendeur1, &r);
+}
+
 #endif
 
 //Définit une fonction testant si le fichier "name" est accessible (existe)
@@ -163,7 +179,7 @@ int main(int argc, char* argv[])
 
 fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-	largeur_de_l_affichage, 48, SDL_SWSURFACE);
+	48, hauteur_de_l_affichage, SDL_SWSURFACE);
 	if ( fenetre2 == NULL )
 	{
 		fprintf(stderr, "Je n'ai pas reussi a creer la premiere fenetre "
@@ -202,7 +218,7 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 int numero_d_image= 0;
 char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
   	double prefact=1.0; //prefacteur devant fonction erfc dans probabt
-  	double probabt=pow(10,-9); 
+  	double probabt=pow(10,-9);
 	double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
 	double m=3.18*pow(10,-23); //masse de la molecule
 	double M=6.02*pow(10,23)*m;//masse molaire
@@ -215,17 +231,21 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 	int Nb=100; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
+  int target_sat=40;
 	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
 
   normal_distribution<double> d{0,Br};
 
 	srand (time(NULL));//seed la fonction random sur le temps
 
-	Antigene *tabg[Ng];
-	for(int i=0; i<Ng; i++)
+	Antigene *tabg[Ng+target_sat];
+	for(int i=0; i<Ng+target_sat; i++)
 	{
 		tabg[i]=new Antigene(); //creer un tableau contenant Ng adresses d'antigene
 	}
+  for (int i = Ng; i <Ng + target_sat; i++) {
+    tabg[i]->pull_out(); //Met les antigenes inutiles dans le reservoir
+  }
 	Antibody *tabb[Nb];
 	for(int j=0;j<Nb; j++)
 	{
@@ -250,6 +270,13 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
           tabg[i]->notifyzones();
           tabg[i]->incrementtimeinzone();
 					tabg[i]->bind(tabb[j],M,dG,T,probabt,tc,prefact);
+          if (tabg[i]->getstate()==false)
+            {
+              Nba++;
+              *tabg[Ng+Nba-1]=*tabg[i];
+              tabg[i]=new Antigene();
+
+            }
 				}
 				if (tabg[i]->getstate()==true)
 				{
@@ -262,8 +289,8 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 			}
 		}
 	}
-	int Nbp=0;// pour compter les anticorps libres
-/*On va tracer Nb lié(t)*/
+	/*int Nbp=0;// pour compter les anticorps libres
+//On va tracer Nb lié(t)
 	for (int j=0;j<Nb;j++)
 	{
 		if ((tabb[j]->getstate())==false)
@@ -271,7 +298,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 			Nbp+=1;
 		}
 	}
-
+*/
   //On va ecrire dans le fichier
   //par colonne : xi ,yi ,vxi ,vyi ,Nb antigene lies ,temps réel (T*tc)
 
@@ -290,39 +317,58 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 */
 
   T+=1;
-	Nba=Nbp;
-  if (Nba==Ng) {
+  if (Nba>target_sat-1) {
     fin_demandee=1;
+    std::cout << "FIN DEMANDEE" << '\n';
   }
 
 
 	#ifdef AFFICHAGE
-	for (int i = 0; i < Ng; i++)
+	for (int i = 0; i < Ng+target_sat; i++)
 	{
-		trace_antigene1(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.01, jaune);
+    if (tabg[i]->getstate()==true) {
+      if ((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc)))>0.05) {
+        trace_antigene1(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,pvert);
+      }
+
+      else{
+
+      couleur[0]= 255 - 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.05;
+      couleur[1]= 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.05;
+		  trace_antigenevolv(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,couleur);
+      }
+
+   }
+
+  else  {
+
+    trace_antigene1(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,vert);
+
+  }
 	}
+
 	for (int j=0;j<Nb;j++)
 	{
 		trace_antigene1(tabb[j]->getxposition(),tabb[j]->getyposition(),0.01,bleu);
 	}
 
-	for (int i=0;i<Ng;i++)
+	for (int i=0;i<Ng+target_sat;i++)
 	{
 		if (tabg[i]->getstate()==false)
 		{
 			trace_antigene2(tabg[i]->getxposition(),tabg[i]->getzposition(),0.01,orange);
 		}
-	}	
+	}
 
 	for (int j=0;j<Nb;j++)
 	{
 		if (tabb[j]->getstate()==true)
 		{
-			trace_antigene2(tabb[j]->getxposition(),tabb[j]->getzposition(),0.01,bleu);
+			trace_antigene2(tabb[j]->getzposition(),tabb[j]->getxposition(),0.01,bleu);
 		}
 		else
 		{
-			trace_antigene2(tabb[j]->getxposition(),tabb[j]->getzposition(),0.01,orange);
+			trace_antigene2(tabb[j]->getzposition(),tabb[j]->getxposition(),0.01,orange);
 		}
 	}
 	/* Mettre a jour l'affichage */

@@ -287,7 +287,7 @@ char* modele_nom_fichier = "test%04d.txt"; */ // transféré plus haut
 
 
   T+=1;
-  if ((float) Nba>target_sat-1) {
+  if (Nba>target_sat-1) {
     fin_demandee=1;
     std::cout << "FIN DEMANDEE" << '\n';
     write_in(numero_du_fichier, modele_nom_fichier, j);

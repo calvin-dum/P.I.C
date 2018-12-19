@@ -22,7 +22,7 @@ Antigene::Antigene() //constructeur
 	m_xspeed=0;
 	m_yspeed=0;
 	m_zspeed=0;
-	m_radius=0.05;
+	m_radius=0.01;
 	m_kinetic=0;
 	in_zones=0;
 	time_in_zone=1;
@@ -53,6 +53,14 @@ void Antigene::bind(Antibody *cible, double M,double dG, double T, double probab
 		}
 	 }
 }
+
+void Antigene::pull_out()
+{
+
+	m_yposition=0.9;
+
+}
+
 
 bool Antigene::getstate() const //accede à l'état true=libre false=lié
 {
@@ -109,13 +117,13 @@ void Antigene::changestate() //lie un antigene
 
 void Antigene::notifyzones() //modifie le booleen pour indiquer la zone
 {
-	if (m_yposition<0.5)//m_radius)
+	if (m_yposition<m_radius)
 	{
 			if (! in_zones) {
 				in_zones=true;
 			}
 	}
-	if (m_yposition>0.7)//2*m_radius)
+	if (m_yposition>m_radius)
 	{
 		if (in_zones) {
 			in_zones=false;
