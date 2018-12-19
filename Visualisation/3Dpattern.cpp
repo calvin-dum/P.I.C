@@ -1,4 +1,5 @@
-/* compiler avec : c++ -Wall -O3 -std=c++11 "Fct/Randomness/randoms.cpp" Antigene.cpp Antibody.cpp pattern.cpp -lm -DAFFICHAGE `sdl2-config --cflags --libs`
+/* compiler avec :  c++ -Wall -O3 -std=c++11 "Fct/Randomness/randoms.cpp" "Fct/Writing_files/writing.cpp" Antigene.cpp Antibody.cpp 3Dpattern.cpp -lm -DAFFICHAGE `sdl2-config --cflags --libs`
+
 
 
 Pour assembler un film a partir des images enregistrees dans des fichiers, utiliser :
