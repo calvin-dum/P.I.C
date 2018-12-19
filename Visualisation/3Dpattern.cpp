@@ -20,6 +20,8 @@ ffmpeg -f image2 -pattern_type glob -framerate 100 -i 'image*.bmp' film.avi */
 #include <fstream>
 #include "Antigene.h"
 #include "Antibody.h"
+#include "Fct/Writing_files/writing.h"
+
 
 //#include <SDL_gfxPrimitives.h>
 #endif
@@ -35,8 +37,9 @@ const Uint8 couleurs[][4]=
     {255,128,0,255},/*orange*/
     { 0,   255,   0, 255 }, /* vert*/
     { 55,  200,   0, 255 }, /* presque vert */
+    { 255,   0,   0, 255 }, /* rouge*/
   };
-const int bleu= 0, jaune= 1, noir= 2, orange=3, vert=4, pvert=5;
+const int bleu= 0, jaune= 1, noir= 2, orange=3, vert=4, pvert=5, rouge=6;
 SDL_Window * fenetre1;
 SDL_Renderer * rendeur1;
 SDL_Window * fenetre2;
@@ -80,68 +83,6 @@ static void trace_antigenevolv(float x, float y, float rayon, Uint8 couleur[4])
 
 #endif
 
-//Définit une fonction testant si le fichier "name" est accessible (existe)
-bool exists_test (const std::string& name)
-{
-	if (FILE *file = fopen(name.c_str(), "r"))
-	{
-	    fclose(file);
-	    return true;
-	}
-	 else
-	{
-	    return false;
-	}
-}
-/*on definit une serie de fonctions qui servent à écrire dans un fichier texte nos résultats__*/
-void define_name(const char* modele_nom_fichier, int& numero_du_fichier )
-{
-	char buffer[256];
-	snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
-	while (exists_test(buffer))
-	{
-		printf(modele_nom_fichier, numero_du_fichier);
-		std::cout << numero_du_fichier << exists_test(buffer) <<'\n';
-		numero_du_fichier+=1;
-		snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
-	}
-}
-
-
-void write_in(int& numero_du_fichier, const char* modele_nom_fichier, const double& position_ou_vitesse)
-{
-	char buffer[256];
-	snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
-	ofstream test;
-	test.open(buffer, ios::app);
-	if (test.is_open())
-	{
-		test << position_ou_vitesse;
-		test << "  ";
-		test.close();
-	}
-	else
-	{
-		cout << "unable to open text";
-	}
-}
-
-void write_endl(int& numero_du_fichier, const char* modele_nom_fichier)
-{
-	char buffer[256];
-	snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
-	ofstream test;
-	test.open(buffer, ios::app);
-	if (test.is_open())
-	{
-		test << "\n";
-		test.close();
-	}
-	else
-	{
-		cout << "unable to open text";
-	}
-}
 
 int main(int argc, char* argv[])
 {
@@ -239,7 +180,7 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	{
 		tabg[i]=new Antigene(); //creer un tableau contenant Ng adresses d'antigene
 	}
- 	for (int i = Ng; i <Ng + target_sat; i++) 
+ 	for (int i = Ng; i <Ng + target_sat; i++)
 	{
     		tabg[i]->pull_out(); //Met les antigenes inutiles dans le reservoir
   	}
@@ -285,7 +226,7 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 			}
 		}
 	}
-	if (Nba>target_sat-1) 
+	if (Nba>target_sat-1)
 	{
 		fin_demandee=1;
 		std::cout << "FIN DEMANDEE" << '\n';
@@ -294,20 +235,20 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 /*__On va maintenant représenter chaque antigène et anticorps dans la fenêtre__*/
 	for (int i = 0; i < Ng+target_sat; i++)
 	{
-		if (tabg[i]->getstate()==true) 
+		if (tabg[i]->getstate()==true)
 		{
-			if ((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc)))>0.05) 
+			if (tabg[i]->getzones())
 			{
-				trace_antigene1(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,pvert);
+				trace_antigene1(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,jaune);
 			}
 			else//la couleur change en fonction de l'aptitude qu'a l'antigène à se lier
 			{
-				ouleur[0]= 255 - 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.05;
-				couleur[1]= 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.05;
-				trace_antigenevolv(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,couleur);
+				//couleur[0]= 255 - 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.05;
+				//couleur[1]= 250*((double) prefact*erfcl(sqrt((double)probabt/(tabg[i]->gettimeinzone()*tc))))/0.05;
+				trace_antigene1(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03, rouge);
 			}
-		}	
-		else  
+		}
+		else
 		{
 			trace_antigene1(tabg[i]->getxposition(), tabg[i]->getyposition(), 0.03,vert);
   		}
@@ -322,11 +263,11 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	{
 		if (tabb[j]->getstate()==true)
 		{
-			trace_antigene2(tabb[j]->getzposition(),tabb[j]->getxposition(),0.01,bleu);
+			trace_antigene2(tabb[j]->getxposition(),tabb[j]->getzposition()/100,0.01,bleu);
 		}
 		else
 		{
-			trace_antigene2(tabb[j]->getzposition(),tabb[j]->getxposition(),0.01,vert);
+			trace_antigene2(tabb[j]->getxposition(),tabb[j]->getzposition()/100,0.01,vert);
 		}
 	}
 	/* Mettre a jour l'affichage */

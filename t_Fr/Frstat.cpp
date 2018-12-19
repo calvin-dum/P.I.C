@@ -1,4 +1,4 @@
-/* compiler avec : c++ -Wall -O3 -std=c++11 "Fct/Randomness/randoms.cpp" Antigene.cpp Antibody.cpp pattern.cpp -lm -DAFFICHAGE `sdl2-config --cflags --libs`
+/* compiler avec : c++ -Wall -O3 -std=c++11 "Fct/Randomness/randoms.cpp" Antigene.cpp Antibody.cpp Frstat.cpp -lm -DAFFICHAGE `sdl2-config --cflags --libs`
 
 
 Pour assembler un film a partir des images enregistrees dans des fichiers, utiliser :
@@ -101,49 +101,49 @@ int main(int argc, char* argv[])
 
   	double prefact=1.0;
   	double probabt=pow(10,-9);
-	double tc=pow(10,-14); 
+	double tc=pow(10,-14);
 	double m=3.18*pow(10,-23);
 	double M=6.02*pow(10,23)*m;
-	double xc=pow(10,-6); 
+	double xc=pow(10,-6);
 	double l=1.8*pow(10,-10);
-	double Fr=0.0066; 
+	double Fr=0.0066;
 	double A=-l*tc/m;
-	int Ng=60; 
-	int Nb=100; 
-	int T=0; 
+	int Ng=60;
+	int Nb=100;
+	int T=0;
 	int target_sat=40;
 	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;
 /*on va repeter l'exp pour différentes conditoins initiale*/
 	for (int f=0;f<10;f++)
 	{
 		define_name(modele_nom_fichier, numero_du_fichier);
-		Fr=Fr/2;	
+		Fr=Fr/2;
 		double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
 		for (int e=0;e<10;e++)//pour chaque conditions initiales on fait des stats sur 10 itérations de l'exp
 		{
 			srand (time(NULL));//seed la fonction random sur le temps
-			
+
 			int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 			int t=0;//pour compter le temps de simulation
 			Antigene *tabg[Ng+target_sat];
 			for(int i=0; i<Ng+target_sat; i++)
 			{
-				tabg[i]=new Antigene(); 
-  			for (int i = Ng; i <Ng + target_sat; i++) 
+				tabg[i]=new Antigene();
+  			for (int i = Ng; i <Ng + target_sat; i++)
 			{
-	    			tabg[i]->pull_out(); 
+	    			tabg[i]->pull_out();
 			}
 			Antibody *tabb[Nb];
 			for(int j=0;j<Nb; j++)
 			{
-				tabb[j]= new Antibody(); 
+				tabb[j]= new Antibody();
 			}
-			while (Nba<target_sat) 
+			while (Nba<target_sat)
 			{
-	
+
 			for (int i = 0; i < Ng; i++)
 			{
-				if (tabg[i]->getstate()==true) 
+				if (tabg[i]->getstate()==true)
 				{
 					if (tabg[i]->getyposition()<tabg[i]->getradius())
 					{
