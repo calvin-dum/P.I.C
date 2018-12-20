@@ -154,27 +154,60 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	mt19937 gen{rd()};
 	define_name(modele_nom_fichier, numero_du_fichier);
 /*On définit les paramètres du problème*/
-
+  int runs = 3;
   double prefact=1.0; //prefacteur devant fonction erfc dans probabt
   double tc=pow(10,-14); //??? Constante de temps pour adimensionnement choisie inferieur à 10-¹²
-  double probabt=pow(10,-12)/tc;//correspond au temps moyen d'interraction entre antigene/corps avant liaisaion
+  double probabt=pow(10,-9)/tc;//correspond au temps moyen d'interraction entre antigene/corps avant liaisaion
 	double m=3.18*pow(10,-23); //masse de la molecule
 	double M=6.02*pow(10,23)*m;//masse molaire
 	double xc=pow(10,-6); //Longueur pour adimensionnement telque Br~1 pour tc
 	double l=1.8*pow(10,-10); // amortissement lambda
-	double Fr=0.00002; //ecart type de la force random
+	double Fr=0.0008; //ecart type de la force random
 	double A=-l*tc/m; //A et Br sont les paramètres restant après adimensionnement ~1
 	double Br=Fr*pow(tc,2)/(m*xc); // Br est précisé
 	int Ng=60; //Nombre de antigenes en solution
-	int Nb=200; //Nombre d'anticorps en solution
+	int Nb=60; //Nombre d'anticorps en solution
 	int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
 	int T=0; //Nombre servant à avoir le temps
-  int target_sat=40;
+  int target_sat=Nb;
 	double dG=pow(tc,2)/pow(xc,2)*8.314*T*log(2*pow(10,-5))/M;//dG adimensionné
 
   normal_distribution<double> d{0,Br};
 
 	srand (time(NULL));//seed la fonction random sur le temps
+
+  for (int l = 40; l < 201; l+=20) {
+    Nb=l;
+    target_sat=Nb;
+
+    for (int k = 0; k < runs; k++) {
+      define_name(modele_nom_fichier, numero_du_fichier);
+
+
+      char buffer[256];
+    	snprintf(buffer, sizeof(buffer), modele_nom_fichier, numero_du_fichier);
+    	ofstream test;
+    	test.open(buffer, ios::app);
+    	if (test.is_open())
+    	{
+        test << "Parameters";
+    		test << "Nb =" << Nb;
+    		test << "  ";
+        test << "run =" << k;
+        test << endl;
+        test << "T";
+    		test << "  ";
+        test << "Nba";
+        test << endl;
+    		test.close();
+    	}
+
+
+
+      int fin_demandee= 0;
+      int Nba=0; //Nombre servant à compter le nombre d'anticorps liés
+      int T=0; //Nombre servant à avoir le temps
+
 
 	Antigene *tabg[Ng+target_sat];
 	for(int i=0; i<Ng+target_sat; i++)
@@ -203,7 +236,7 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 		if (tabg[i]->getstate()==true) //la flèche permet d'appliquer une méthode à l'objet situé à l'adresse à gauche de la flèche
 		{
       tabg[i]->notifyzones();
-      tabg[i]->incrementtimeinzone();
+      //tabg[i]->incrementtimeinzone();
 			if (tabg[i]->getyposition()<tabg[i]->getradius())
 			{
 				for (int j=0;j<Nb;j++)
@@ -216,6 +249,9 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 						Nba++;
 						*tabg[Ng+Nba-1]=*tabg[i];
 						tabg[i]=new Antigene();
+            write_in(numero_du_fichier, modele_nom_fichier, T);
+            write_in(numero_du_fichier, modele_nom_fichier, Nba);
+            write_endl(numero_du_fichier, modele_nom_fichier);
 					}
 				}
 				if (tabg[i]->getstate()==true)
@@ -229,6 +265,7 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 			}
 		}
 	}
+  T++;
 	if (Nba>target_sat-1)
 	{
 		fin_demandee=1;
@@ -236,7 +273,7 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	}
 	#ifdef AFFICHAGE
 /*__On va maintenant représenter chaque antigène et anticorps dans la fenêtre__*/
-	for (int i = 0; i < Ng+target_sat; i++)
+/*	for (int i = 0; i < Ng+target_sat; i++)
 	{
 		if (tabg[i]->getstate()==true)
 		{
@@ -273,9 +310,10 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 			trace_antigene2(tabb[j]->getxposition()/10,tabb[j]->getzposition()/100,0.01,vert);
 		}
 	}
+  */
 	/* Mettre a jour l'affichage */
-	SDL_RenderPresent(rendeur1);
-	SDL_RenderPresent(rendeur2);
+	//SDL_RenderPresent(rendeur1);
+	//SDL_RenderPresent(rendeur2);
 	/* Enregistrer l'image dans un fichier*/
 	/*numero_d_image++;
 	if (numero_d_image < 10000)
@@ -302,5 +340,7 @@ fenetre2= SDL_CreateWindow("la face fonctionnalisée Oxz",
 	SDL_DestroyWindow(fenetre2);
 	SDL_Quit();
 	#endif
+}
+}
 	return 0;
 }

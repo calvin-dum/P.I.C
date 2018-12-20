@@ -135,11 +135,11 @@ void Antigene::incrementtimeinzone()
 	if (in_zones) {
 		time_in_zone++;
 	}
-	else
-	{
-		time_in_zone=1;
+	//else
+	//{
+		//time_in_zone=1;
 
-	}
+	//}
 
 }
 
